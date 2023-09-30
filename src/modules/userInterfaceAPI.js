@@ -1,0 +1,240 @@
+import todo from "./todo";
+import project from "./project";
+import { isFuture, isToday } from "date-fns";
+
+/**
+ * Handles user interactions.
+ */
+const userInterfaceAPI = () => {
+  const _projects = [];
+
+  /**
+   * Creates a todo and adds it to an appropriate project.
+   * @param {string} title - The title of the todo
+   * @param {string} descr - The description of the todo
+   * @param {Date} dueDate - The due date of the todo
+   * @param {0 | 1 | 2} priority - How important is the todo?
+   * @param {string} labels - Labels associated with the todo
+   * @param {string} projectID -ID of the project associated with tod
+   * @returns 
+   */
+  const createTodo = (title, descr, dueDate, priority, labels, projectID) => {
+    const labels = labels.split(" ");
+    const newTodo = todo(title, descr, dueDate, priority, labels);
+
+    for (const project of _projects) {
+      if (project.id === projectID) {
+        project.addTodo(newTodo);
+        return;
+      }
+    }
+
+    throw new Error(`Project with ${projectID} is not found.`);
+  }
+
+  /**
+   * Creates a project
+   * @param {string} name - The name of the project
+   * @param {string} descr - The description of the project
+   */
+  const createProject = (name, descr) => {
+    const newProject = project(name, descr);
+    _projects.push(newProject);
+  }
+
+  const _getAllTodos = () => {
+    const todos = [];
+
+    for (project of _projects) {
+      todos.push(...project.getAll());
+    }
+
+    return todos;
+  }
+
+  const _filter = (arr, predicate) => {
+    return arr.filter(predicate);
+  }
+
+  const getAllProjects = () => _projects;
+
+  const getCompletedTodos = () => {
+    const todos = _getAllTodos();
+    const func = (item) => item.taskCompleted() === true;
+    return _filter(todos, func);
+  }
+
+  /**
+   * Retrieves todos that have a priority that matches the one specified.
+   * @param {0 | 1 | 2} priority
+   * A number between 0 and 2. Where 0 represents the highest priority and 2 represents the lowest priority
+   */
+  const getTodosBasedOnPriority = (priority) => {
+    const filter = (priority) => {
+      const todos = _getAllTodos();
+      const func = (item) => item.getPriority() === priority;
+      return _filter(todos, func);
+    }
+
+    switch (priority) {
+      case "low":
+        filter(2);
+
+      case "medium":
+        filter(1);
+
+      case "high":
+        filter(0);
+    }
+  }
+
+  /**
+   * Retrieves todos whose deadline is in the future.
+   * @returns todos with due dates (deadline) in the future
+   */
+  const getTodosDueInTheFuture = () => {
+    const todos = _getAllTodos();
+    const todosDueInTheFuture = [];
+
+    for (const todo of todos) {
+      if (isFuture(todo.getDueDate())) {
+        todosDueInTheFuture.push(todo);
+      }
+    }
+
+    return todosDueInTheFuture;
+  }
+
+  /**
+   * 
+   * @returns todos whose deadline is today
+   */
+  const getTodosDueToday = () => {
+    const todos = _getAllTodos();
+    const todosDueToday = [];
+
+    for (const todo of todos) {
+      if (isToday(todo.getDueDate())) {
+        todosDueToday.push(todo);
+      }
+    }
+
+    return todosDueToday;
+  }
+
+  /**
+   * 
+   * @param {Array} todos 
+   * @returns 
+   */
+  const _orderbyPriority = (todos) => {
+    return todos.sort((a, b) => {
+      if (a.getPriority() < b.getPriority()) {
+        return -1;
+      } else if (a.getPriority() === b.getPriority()) {
+        return 0;
+      } else {
+        return 1;
+      }
+    })
+  }
+
+  /**
+   * 
+   * @param {Array} todos 
+   * @returns 
+   */
+  const _orderbyTitleAsc = (todos) => {
+    return todos.sort((a, b) => {
+      if (a.getTitle() < b.getTitle()) {
+        return -1;
+      } else if (a.getTitle() === b.getTitle()) {
+        return 0;
+      } else {
+        return 1;
+      }
+    })
+  } 
+
+  /**
+   * 
+   * @param {Array} todos 
+   * @returns 
+   */
+  const _orderbyTitleDesc = (todos) => {
+    return todos.sort((a, b) => {
+      if (a.getTitle() < b.getTitle()) {
+        return 1;
+      } else if (a.getTitle() === b.getTitle()) {
+        return 0;
+      } else {
+        return -1;
+      }
+    })
+  } 
+
+  /**
+   * 
+   * @param {Array} todos 
+   * @returns 
+   */
+  const _orderbyDueDate = (todos) => {
+    return todos.sort((a, b) => compareAsc(a.getDueDate(), b.getDueDate()));
+  }
+
+  /**
+   * 
+   * @param {Array} todos 
+   * @returns 
+   */
+  const _orderbyDateCreated = (todos) => {    
+    return todos.sort((a, b) => compareAsc(a.getTodoCreationDate(), b.getTodoCreationDate()));
+  }
+
+  /**
+   * Returns an ordered array of todos depending on orderby.
+   * @param {"ascending" | "descending" | "priority" | "created" | "duedate"} orderby - Instruction on how the todos must be ordered
+   * @param {string} projectID - ID of the project
+   * @returns ordered todos
+   */
+  const orderTodos = (orderby, projectID) => {
+    let project;
+    for (const proj of _projects) {
+      if (proj.getID() === projectID) {
+        project = proj;
+      }
+    }
+
+    const todos = project.getAll();
+
+    switch (orderby) {
+      case "ascending":
+        return _orderbyTitleAsc(todos);
+
+      case "descending":
+        return _orderbyTitleDesc(todos);
+
+      case "priority":
+        return _orderbyPriority(todos);
+
+      case "created": 
+        return _orderbyDateCreated(todos);
+
+      case "duedate":
+        return _orderbyDueDate(todos);
+    }
+  }
+
+  return {
+    createTodo,
+    createProject,
+    getAllProjects,
+    getCompletedTodos,
+    getTodosBasedOnPriority,
+    getTodosDueInTheFuture,
+    getTodosDueToday,
+    orderTodos,
+  }
+}
+
+export default userInterfaceAPI();
