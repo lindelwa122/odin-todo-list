@@ -1,4 +1,4 @@
-import userInterfaceAPI from "./userInterfaceAPI";
+import userInterfaceAPI from './userInterfaceAPI';
 
 const displayController = () => {
   const _openProjectForm = () => {
@@ -17,7 +17,7 @@ const displayController = () => {
         dialog.close();
       });
     });
-  }
+  };
 
   const _submitProjectForm = () => {
     const form = document.querySelector('#project-form');
@@ -25,19 +25,18 @@ const displayController = () => {
       const title = form.querySelector('input');
       const description = form.querySelector('textarea');
       userInterfaceAPI.createProject(title.value, description.value);
-      
+
       // clear form
       title.value = '';
       description.value = '';
-      console.log({ ps: userInterfaceAPI.getAllProjects() });
     });
-  }
+  };
 
   const startApp = () => {
     _openProjectForm();
     _closeModal();
     _submitProjectForm();
-  }
+  };
 
   return { startApp };
 };
