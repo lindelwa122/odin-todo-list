@@ -8,7 +8,7 @@
   <body>
     <nav>
       <div>LoadingTasks</div>
-      <div>
+      <div class='open-project-form'>
         <span>Project</span>
         <i class="bi bi-plus-circle"></i>
       </div>
@@ -47,7 +47,7 @@
       </div>
 
       <div class="group project">
-        <div class="heading">Project</div>
+        <div class="heading open-project-form">Project</div>
         <div>
           <i class="bi"></i>
           <span>The Odin Project</span>
@@ -146,7 +146,7 @@
     </main>
 
     <dialog id="todo-form-dialog">
-      <div><i class="bi bi-x-lg"></i></div>
+      <div><i class="bi bi-x-lg close-modal"></i></div>
       <form method="dialog">
         <label for="title">Title</label>
         <input
@@ -188,9 +188,9 @@
 
     <dialog id="project-form-dialog">
       <div>
-        <i class="bi bi-x-lg"></i>
+        <i class="bi bi-x-lg close-modal"></i>
       </div>
-      <form method="dialog">
+      <form id="project-form" method="dialog">
         <label for="project-title">Project Title</label>
         <input
           type="text"

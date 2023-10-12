@@ -1,6 +1,9 @@
 import todo from './modules/todo';
 import 'normalize.css';
 import './style/style.css';
+import startApp from './modules/displayController';
+
+startApp();
 
 const task = todo(
   'The Todo List Project',
