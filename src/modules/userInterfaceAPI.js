@@ -1,6 +1,6 @@
-import todo from "./todo";
-import project from "./project";
-import { isFuture, isToday } from "date-fns";
+import todo from './todo';
+import project from './project';
+import { isFuture, isToday } from 'date-fns';
 
 /**
  * Handles user interactions.
@@ -16,10 +16,10 @@ const userInterfaceAPI = () => {
    * @param {0 | 1 | 2} priority - How important is the todo?
    * @param {string} labels - Labels associated with the todo
    * @param {string} projectID -ID of the project associated with tod
-   * @returns 
+   * @returns
    */
   const createTodo = (title, descr, dueDate, priority, labels, projectID) => {
-    const labels = labels.split(" ");
+    const labels = labels.split(' ');
     const newTodo = todo(title, descr, dueDate, priority, labels);
 
     for (const project of _projects) {
@@ -30,7 +30,7 @@ const userInterfaceAPI = () => {
     }
 
     throw new Error(`Project with ${projectID} is not found.`);
-  }
+  };
 
   /**
    * Creates a project
@@ -40,7 +40,7 @@ const userInterfaceAPI = () => {
   const createProject = (name, descr) => {
     const newProject = project(name, descr);
     _projects.push(newProject);
-  }
+  };
 
   const _getAllTodos = () => {
     const todos = [];
@@ -50,11 +50,11 @@ const userInterfaceAPI = () => {
     }
 
     return todos;
-  }
+  };
 
   const _filter = (arr, predicate) => {
     return arr.filter(predicate);
-  }
+  };
 
   const getAllProjects = () => _projects;
 
@@ -62,7 +62,7 @@ const userInterfaceAPI = () => {
     const todos = _getAllTodos();
     const func = (item) => item.taskCompleted() === true;
     return _filter(todos, func);
-  }
+  };
 
   /**
    * Retrieves todos that have a priority that matches the one specified.
@@ -74,19 +74,19 @@ const userInterfaceAPI = () => {
       const todos = _getAllTodos();
       const func = (item) => item.getPriority() === priority;
       return _filter(todos, func);
-    }
+    };
 
     switch (priority) {
-      case "low":
+      case 'low':
         filter(2);
 
-      case "medium":
+      case 'medium':
         filter(1);
 
-      case "high":
+      case 'high':
         filter(0);
     }
-  }
+  };
 
   /**
    * Retrieves todos whose deadline is in the future.
@@ -103,10 +103,10 @@ const userInterfaceAPI = () => {
     }
 
     return todosDueInTheFuture;
-  }
+  };
 
   /**
-   * 
+   *
    * @returns todos whose deadline is today
    */
   const getTodosDueToday = () => {
@@ -120,12 +120,12 @@ const userInterfaceAPI = () => {
     }
 
     return todosDueToday;
-  }
+  };
 
   /**
-   * 
-   * @param {Array} todos 
-   * @returns 
+   *
+   * @param {Array} todos
+   * @returns
    */
   const _orderbyPriority = (todos) => {
     return todos.sort((a, b) => {
@@ -136,13 +136,13 @@ const userInterfaceAPI = () => {
       } else {
         return 1;
       }
-    })
-  }
+    });
+  };
 
   /**
-   * 
-   * @param {Array} todos 
-   * @returns 
+   *
+   * @param {Array} todos
+   * @returns
    */
   const _orderbyTitleAsc = (todos) => {
     return todos.sort((a, b) => {
@@ -153,13 +153,13 @@ const userInterfaceAPI = () => {
       } else {
         return 1;
       }
-    })
-  } 
+    });
+  };
 
   /**
-   * 
-   * @param {Array} todos 
-   * @returns 
+   *
+   * @param {Array} todos
+   * @returns
    */
   const _orderbyTitleDesc = (todos) => {
     return todos.sort((a, b) => {
@@ -170,26 +170,28 @@ const userInterfaceAPI = () => {
       } else {
         return -1;
       }
-    })
-  } 
+    });
+  };
 
   /**
-   * 
-   * @param {Array} todos 
-   * @returns 
+   *
+   * @param {Array} todos
+   * @returns
    */
   const _orderbyDueDate = (todos) => {
     return todos.sort((a, b) => compareAsc(a.getDueDate(), b.getDueDate()));
-  }
+  };
 
   /**
-   * 
-   * @param {Array} todos 
-   * @returns 
+   *
+   * @param {Array} todos
+   * @returns
    */
-  const _orderbyDateCreated = (todos) => {    
-    return todos.sort((a, b) => compareAsc(a.getTodoCreationDate(), b.getTodoCreationDate()));
-  }
+  const _orderbyDateCreated = (todos) => {
+    return todos.sort((a, b) =>
+      compareAsc(a.getTodoCreationDate(), b.getTodoCreationDate()),
+    );
+  };
 
   /**
    * Returns an ordered array of todos depending on orderby.
@@ -208,22 +210,22 @@ const userInterfaceAPI = () => {
     const todos = project.getAll();
 
     switch (orderby) {
-      case "ascending":
+      case 'ascending':
         return _orderbyTitleAsc(todos);
 
-      case "descending":
+      case 'descending':
         return _orderbyTitleDesc(todos);
 
-      case "priority":
+      case 'priority':
         return _orderbyPriority(todos);
 
-      case "created": 
+      case 'created':
         return _orderbyDateCreated(todos);
 
-      case "duedate":
+      case 'duedate':
         return _orderbyDueDate(todos);
     }
-  }
+  };
 
   return {
     createTodo,
@@ -234,7 +236,7 @@ const userInterfaceAPI = () => {
     getTodosDueInTheFuture,
     getTodosDueToday,
     orderTodos,
-  }
-}
+  };
+};
 
 export default userInterfaceAPI();

@@ -1,28 +1,28 @@
-import { nanoid } from "nanoid";
-import { compareAsc, format } from "date-fns";
+import { nanoid } from 'nanoid';
+import { compareAsc } from 'date-fns';
 
 const validateTodo = (title, descr, dueDate, priority, labels) => {
   if (title.length < 3 || title.length > 50) {
-    throw new Error("Title must have between 3 and 50 characters.");
+    throw new Error('Title must have between 3 and 50 characters.');
   }
 
   if (descr.length < 10 || descr.length > 250) {
-    throw new Error("Description must have between 10 and 250 characters.");
+    throw new Error('Description must have between 10 and 250 characters.');
   }
 
   const result = compareAsc(new Date(), dueDate);
   if (result == 1) {
-    throw new Error("The due date is in invalid.");
+    throw new Error('The due date is in invalid.');
   }
 
   if (priority !== 0 && priority !== 1 && priority !== 2) {
-    throw new Error("Priority can only be 0, 1 or 2.");
+    throw new Error('Priority can only be 0, 1 or 2.');
   }
 
   if (!Array.isArray(labels)) {
-    throw new Error("Label must be an array");
+    throw new Error('Label must be an array');
   }
-}
+};
 
 /**
  * Represents a todo
@@ -44,7 +44,9 @@ const todo = (title, descr, dueDate, priority, labels) => {
   let _descr = descr;
   let _dueDate = dueDate;
   let _priority = priority;
-  let _labels = labels;
+  const _labels = labels;
+
+  console.log(priority);
 
   const getID = () => _id;
   const getTitle = () => _title;
@@ -105,7 +107,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
     return true;
   };
 
-  const toggleCompleted = () => _completed = !_completed;
+  const toggleCompleted = () => (_completed = !_completed);
 
   /**
    * Returns true if a label was added successfully; otherwise false.
@@ -148,7 +150,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
     updateDueDate,
     updatePriority,
     updateTitle,
-  }
+  };
 };
 
 export default todo;

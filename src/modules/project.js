@@ -1,10 +1,10 @@
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
 
 /**
  * Represents a group of todos
  * @param {string} title - The title of the project
  * @param {string} descr - The description of the project
- * @returns public methods of project
+ * @return public methods of project
  */
 const project = (title, descr) => {
   const _id = nanoid();
