@@ -65,6 +65,19 @@ const userInterfaceAPI = () => {
   };
 
   /**
+   * Retrieves all todos of the specified project
+   * @param {string} projectID - An ID of the project
+   * @returns {Array} - An array of todos that belong to the specified project. If projectID doesn't match any project, an empty array is returned instead.
+   */
+  const getTodos = (projectID) => {
+    const project = _projects.find((project) => project.getID() === projectID);
+
+    if (!project) return [];
+
+    return project.getAll();
+  };
+
+  /**
    * Retrieves todos that have a priority that matches the one specified.
    * @param {0 | 1 | 2} priority
    * A number between 0 and 2. Where 0 represents the highest priority and 2 represents the lowest priority
@@ -232,6 +245,7 @@ const userInterfaceAPI = () => {
     createProject,
     getAllProjects,
     getCompletedTodos,
+    getTodos,
     getTodosBasedOnPriority,
     getTodosDueInTheFuture,
     getTodosDueToday,
