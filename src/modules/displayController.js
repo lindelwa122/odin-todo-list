@@ -10,26 +10,30 @@ const displayController = () => {
     });
   };
 
+  /**
+   *  
+   * @param {string} selector 
+   */
+  const _emptyContainer = (selector) => {
+    const container = document.querySelector(selector);
+
+    // Convert HTML Collection to an Array instance
+    // This allow us to remove a child from the DOM without the array updating
+    const children = [];
+    for (const child of container.children) children.push(child);
+
+    for (const child of children) {
+      if (!child.classList.contains('heading')) {
+        child.remove();
+      }
+    }
+  };
+
   const _renderProjects = () => {
     const projects = userInterfaceAPI.getAllProjects();
 
-    const emptyContainer = () => {
-      const container = document.querySelector('#project-list');
-
-      // Convert HTML Collection to an Array instance
-      // This allow us to remove a child from the DOM without the array updating
-      const children = [];
-      for (const child of container.children) children.push(child);
-
-      for (const child of children) {
-        if (!child.classList.contains('heading')) {
-          child.remove();
-        }
-      }
-    };
-
     const container = document.querySelector('#project-list');
-    emptyContainer();
+    _emptyContainer('#project-list');
     projects.forEach((project) => {
       const id = project.getID();
       const title = project.getTitle();
