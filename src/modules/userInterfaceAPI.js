@@ -23,7 +23,7 @@ const userInterfaceAPI = () => {
     const newTodo = todo(title, descr, dueDate, priority, labelList);
 
     for (const project of _projects) {
-      if (project.id === projectID) {
+      if (project.getID() === projectID) {
         project.addTodo(newTodo);
         return;
       }
