@@ -1,5 +1,6 @@
 import userInterfaceAPI from './userInterfaceAPI';
 import projectElement from '../components/project';
+import todoElement from '../components/todo';
 
 const displayController = () => {
   const _openProjectForm = () => {
@@ -29,6 +30,21 @@ const displayController = () => {
     }
   };
 
+  const _renderTodos = (projectID, projectName) => {
+    const todos = userInterfaceAPI.getTodos(projectID);
+
+    const main = document.querySelector('main');
+    const addTask = document.querySelector('new-task');
+
+    const heading = main.querySelector('.heading > h1');
+    heading.textContent = projectName;
+
+    todos.forEach((todo) => {
+      const todoEle = todoElement(todo);
+      main.insertBefore(addTask, todoEle);
+    });
+  }
+
   const _renderProjects = () => {
     const projects = userInterfaceAPI.getAllProjects();
 
@@ -39,6 +55,9 @@ const displayController = () => {
       const title = project.getTitle();
       const description = project.getDescr();
       const projectEle = projectElement(id, title, description);
+      projectEle.addEventListener('click', () => {
+        _renderTodos(id, title);
+      })
       container.append(projectEle);
     });
   };
