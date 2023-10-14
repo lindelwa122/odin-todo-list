@@ -5,16 +5,16 @@
  * @param {string} description - The description of the project
  * @returns An HTMLDIVElement that contains the icon and project's name
  */
-const project = (id, name, description) => {
+const project = (projectInstance) => {
   const container = document.createElement('div');
-  container.dataset.id = id;
-  container.title = description;
+  container.dataset.id = projectInstance.getID();
+  container.title = projectInstance.getDescr();
 
   const icon = document.createElement('i');
   icon.classList = 'bi bi-boxes';
 
   const text = document.createElement('span');
-  text.textContent = name;
+  text.textContent = projectInstance.getTitle();
 
   container.append(icon, text);
 

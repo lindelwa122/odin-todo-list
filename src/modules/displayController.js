@@ -51,12 +51,9 @@ const displayController = () => {
     const container = document.querySelector('#project-list');
     _emptyContainer('#project-list');
     projects.forEach((project) => {
-      const id = project.getID();
-      const title = project.getTitle();
-      const description = project.getDescr();
-      const projectEle = projectElement(id, title, description);
+      const projectEle = projectElement(project);
       projectEle.addEventListener('click', () => {
-        _renderTodos(id, title);
+        _renderTodos(project.getID(), project.getTitle());
       })
       container.append(projectEle);
     });
