@@ -3,6 +3,8 @@ import projectElement from '../components/project';
 import todoElement from '../components/todo';
 
 const displayController = () => {
+  let _currentProject;
+
   const _openTodoForm = () => {
     document.querySelector('.new-task').addEventListener('click', () => {
       document.querySelector('#todo-form-dialog').showModal();
@@ -52,6 +54,7 @@ const displayController = () => {
     projects.forEach((project) => {
       const projectEle = projectElement(project);
       projectEle.addEventListener('click', () => {
+        _currentProject = project;
         _renderTodos(project.getID(), project.getTitle());
       })
       container.append(projectEle);
