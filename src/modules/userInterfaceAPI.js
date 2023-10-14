@@ -240,6 +240,54 @@ const userInterfaceAPI = () => {
     }
   };
 
+  /**
+   * Updates todo 
+   * @param {string} projectID - The ID of the project that stores todo
+   * @param {string} todoID - The ID of the todo to be updated
+   * @param {'completed' | 'description' | 'duedate' | 'priority' | 'title'} about - Information to be updated
+   * @param {*} newInfo - New information
+   * @returns true if the todo was updated successfully, otherwise false
+   */
+  const updateTodo = (projectID, todoID, about, newInfo) => {
+    const project = _projects.find((project) => project.getID() === projectID);
+
+    if (!project) {
+      throw new Error(`Project with ID (${projectID}) is not found.`);
+    }
+    
+    const todos = project.getAll();
+    const todo = todos.find((todo) => todo.getID() === todoID);
+
+    if (!todo) {
+      throw new Error(`Todo with ID (${todoID}) is not found.`);
+    }
+
+    let updated = false;
+    switch (about) {
+      case 'completed':
+        updated = todo.toggleCompleted();
+        break;
+
+      case 'description':
+        updated = todo.updateDescr(newInfo);
+        break;
+
+      case 'duedate':
+        updated = todo.updateDueDate(newInfo);
+        break;
+
+      case 'priority':
+        updated = todo.updatePriority(newInfo);
+        break;
+
+      case 'title':
+        updated = todo.updateTitle(newInfo);
+        break;
+    }
+
+    return updated;
+  }
+
   return {
     createTodo,
     createProject,
@@ -250,6 +298,7 @@ const userInterfaceAPI = () => {
     getTodosDueInTheFuture,
     getTodosDueToday,
     orderTodos,
+    updateTodo,
   };
 };
 
