@@ -7,6 +7,7 @@
  */
 const project = (projectInstance) => {
   const container = document.createElement('div');
+  container.className = 'project-item';
   container.dataset.id = projectInstance.getID();
   container.title = projectInstance.getDescr();
 

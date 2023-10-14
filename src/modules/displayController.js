@@ -15,18 +15,11 @@ const displayController = () => {
    *  
    * @param {string} selector 
    */
-  const _emptyContainer = (selector) => {
-    const container = document.querySelector(selector);
+  const _removeNodes = (selector) => {
+    const nodes = document.querySelectorAll(selector);
 
-    // Convert HTML Collection to an Array instance
-    // This allow us to remove a child from the DOM without the array updating
-    const children = [];
-    for (const child of container.children) children.push(child);
-
-    for (const child of children) {
-      if (!child.classList.contains('heading')) {
-        child.remove();
-      }
+    for (const node of nodes) {
+      node.remove();
     }
   };
 
@@ -49,7 +42,7 @@ const displayController = () => {
     const projects = userInterfaceAPI.getAllProjects();
 
     const container = document.querySelector('#project-list');
-    _emptyContainer('#project-list');
+    _removeNodes('.project-item');
     projects.forEach((project) => {
       const projectEle = projectElement(project);
       projectEle.addEventListener('click', () => {
