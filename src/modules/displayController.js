@@ -3,6 +3,12 @@ import projectElement from '../components/project';
 import todoElement from '../components/todo';
 
 const displayController = () => {
+  const _openTodoForm = () => {
+    document.querySelector('.new-task').addEventListener('click', () => {
+      document.querySelector('#todo-form-dialog').showModal();
+    });
+  };
+
   const _openProjectForm = () => {
     document.querySelectorAll('.open-project-form').forEach((x) => {
       x.addEventListener('click', () => {
@@ -83,6 +89,7 @@ const displayController = () => {
 
   const startApp = () => {
     _openProjectForm();
+    _openTodoForm();
     _closeModal();
     _submitProjectForm();
   };
