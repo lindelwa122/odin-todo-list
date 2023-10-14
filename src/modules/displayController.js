@@ -18,7 +18,7 @@ const displayController = () => {
       container.title = description;
 
       const icon = document.createElement('i');
-      icon.classList = ['bi'];
+      icon.classList = 'bi bi-boxes';
 
       const text = document.createElement('span');
       text.textContent = name;
@@ -26,7 +26,7 @@ const displayController = () => {
       container.append(icon, text);
 
       return container;
-    }
+    };
 
     const emptyContainer = () => {
       const container = document.querySelector('#project-list');
@@ -41,7 +41,7 @@ const displayController = () => {
           child.remove();
         }
       }
-    }
+    };
 
     const container = document.querySelector('#project-list');
     emptyContainer();
@@ -49,14 +49,14 @@ const displayController = () => {
       const id = project.getID();
       const title = project.getTitle();
       const description = project.getDescr();
-      const projectEle = projectElement(id, title, description)
+      const projectEle = projectElement(id, title, description);
       container.append(projectEle);
-    })
-  }
+    });
+  };
 
   const _renderPageContents = () => {
     _renderProjects();
-  }
+  };
 
   const _closeModal = () => {
     const clicked = document.querySelectorAll('.close-modal');
