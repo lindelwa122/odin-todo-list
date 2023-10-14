@@ -111,6 +111,17 @@ select {
   width: 100%;
 }
 
+.labels {
+  display: flex;
+  gap: 10px;
+}
+
+.labels > div {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  padding: 6px;
+}
+
 .low-priority {
   background-color: lime;
 }

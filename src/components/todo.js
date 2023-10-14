@@ -40,9 +40,24 @@ const todo = (todoInstance) => {
       <span>Due on ${dueDate}</span>
       <i class="bi bi-clock"></i>
     </div>
-  `
+  `;
+
+  if (todoInstance.getLabels()[0]) {
+    const labels = todoInstance.getLabels().map((label) => {
+      const div = document.createElement('div');
+      div.textContent = label;
+      return div;
+    });
+
+    const labelsContainer = document.createElement('div');
+    labelsContainer.className = 'labels';
+
+    labels.forEach((label) => labelsContainer.appendChild(label));
+
+    container.appendChild(labelsContainer);
+  }
 
   return container;
-}
+};
 
 export default todo;
