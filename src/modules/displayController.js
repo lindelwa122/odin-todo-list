@@ -20,8 +20,8 @@ const displayController = () => {
   };
 
   /**
-   *  
-   * @param {string} selector 
+   *
+   * @param {string} selector
    */
   const _removeNodes = (selector) => {
     const nodes = document.querySelectorAll(selector);
@@ -32,6 +32,9 @@ const displayController = () => {
   };
 
   const _renderTodos = (projectID, projectName) => {
+    // Remove todos
+    _removeNodes('.task');
+
     const todos = userInterfaceAPI.getTodos(projectID);
 
     const main = document.querySelector('main');
@@ -42,9 +45,9 @@ const displayController = () => {
 
     todos.forEach((todo) => {
       const todoEle = todoElement(todo);
-      main.insertBefore(addTask, todoEle);
+      main.insertBefore(todoEle, addTask);
     });
-  }
+  };
 
   const _renderProjects = () => {
     const projects = userInterfaceAPI.getAllProjects();
@@ -56,7 +59,7 @@ const displayController = () => {
       projectEle.addEventListener('click', () => {
         _currentProject = project;
         _renderTodos(project.getID(), project.getTitle());
-      })
+      });
       container.append(projectEle);
     });
   };
@@ -72,6 +75,40 @@ const displayController = () => {
         const dialog = x.closest('dialog');
         dialog.close();
       });
+    });
+  };
+
+  const _submitTodoForm = () => {
+    const form = document.querySelector('#todo-form');
+
+    // validate duedate
+    const duedate = form.querySelector('#duedate');
+    const d = new Date();
+    duedate.min = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+
+    form.addEventListener('submit', () => {
+      const title = form.querySelector('#title');
+      const description = form.querySelector('#description');
+      const priority = form.querySelector('#priority');
+      const labels = form.querySelector('#labels');
+
+      userInterfaceAPI.createTodo(
+        title.value,
+        description.value,
+        new Date(duedate.value),
+        +priority.value,
+        labels.value,
+        _currentProject.getID(),
+      );
+
+      _renderTodos(_currentProject.getID(), _currentProject.getTitle());
+
+      // clear form
+      title.value = '';
+      description.value = '';
+      duedate.value = '';
+      priority.value = '';
+      labels.value = '';
     });
   };
 
@@ -95,6 +132,7 @@ const displayController = () => {
     _openTodoForm();
     _closeModal();
     _submitProjectForm();
+    _submitTodoForm();
   };
 
   return { startApp };

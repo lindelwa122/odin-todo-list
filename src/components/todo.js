@@ -1,23 +1,43 @@
+import { format } from 'date-fns';
+
 const todo = (todoInstance) => {
   const container = document.createElement('div');
   container.className = 'task';
   container.dataset.id = todoInstance.getID();
   container.title = todoInstance.getDescr();
 
+  let priority;
+  switch (todoInstance.getPriority()) {
+    case 0:
+      priority = 'high-priority';
+      break;
+
+    case 1:
+      priority = 'medium-priority';
+      break;
+
+    case 2:
+      priority = 'low-priority';
+      break;
+  }
+
+  const completed = todoInstance.taskCompleted() ? 'active' : '';
+  const title = todoInstance.getTitle();
+  const dueDate = format(todoInstance.getDueDate(), 'PPPP');
 
   container.innerHTML = `
     <div class="radio">
-      <div class="disk"></div>
+      <div class="disk ${completed}"></div>
     </div>
     <div>
-      <span class="title">Title</span>
-      <span class="high-priority"></span>
+      <span class="title">${title}</span>
+      <span class="${priority}"></span>
     </div>
     <div class="pencil-container">
       <i class="bi bi-pencil-fill"></i>
     </div>
     <div class="deadline-container">
-      <span>07:30</span>
+      <span>Due on ${dueDate}</span>
       <i class="bi bi-clock"></i>
     </div>
   `
