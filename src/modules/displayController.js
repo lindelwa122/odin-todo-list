@@ -1,4 +1,5 @@
 import userInterfaceAPI from './userInterfaceAPI';
+import projectElement from '../components/project';
 
 const displayController = () => {
   const _openProjectForm = () => {
@@ -11,22 +12,6 @@ const displayController = () => {
 
   const _renderProjects = () => {
     const projects = userInterfaceAPI.getAllProjects();
-
-    const projectElement = (id, name, description) => {
-      const container = document.createElement('div');
-      container.dataset.id = id;
-      container.title = description;
-
-      const icon = document.createElement('i');
-      icon.classList = 'bi bi-boxes';
-
-      const text = document.createElement('span');
-      text.textContent = name;
-
-      container.append(icon, text);
-
-      return container;
-    };
 
     const emptyContainer = () => {
       const container = document.querySelector('#project-list');
