@@ -20,7 +20,7 @@ const userInterfaceAPI = () => {
    */
   const createTodo = (title, descr, dueDate, priority, labels, projectID) => {
     const labelList = labels.split(' ');
-    const newTodo = todo(title, descr, dueDate, priority, labels);
+    const newTodo = todo(title, descr, dueDate, priority, labelList);
 
     for (const project of _projects) {
       if (project.id === projectID) {
