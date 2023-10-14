@@ -136,6 +136,30 @@ const userInterfaceAPI = () => {
   };
 
   /**
+   * Retrieves information about the specified todo
+   * @param {string} todoID - The ID of the todo to get information on
+   * @returns information about the specified todo
+   */
+  const getTodoInfo = (todoID) => {
+    const todos = []
+    todos.push(..._projects.map((project) => project.getAll()));
+
+    const todo = todos.find((todo) => todo.getID() === todoID);
+
+    if (!todo) {
+      throw new Error(`Todo with an ID of ${todoID} is not found.`);
+    }
+
+    const title = todo.getTitle();
+    const description = todo.getDescr();
+    const dueDate = todo.getDueDate();
+    const priority = todo.getPriority();
+    const labels = todo.getLabels();
+
+    return { title, description, dueDate, priority, labels };
+  }
+
+  /**
    *
    * @param {Array} todos
    * @returns
@@ -297,6 +321,7 @@ const userInterfaceAPI = () => {
     getTodosBasedOnPriority,
     getTodosDueInTheFuture,
     getTodosDueToday,
+    getTodoInfo,
     orderTodos,
     updateTodo,
   };
