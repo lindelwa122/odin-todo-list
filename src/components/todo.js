@@ -26,7 +26,7 @@ const todo = (todoInstance) => {
   const dueDate = format(todoInstance.getDueDate(), 'PPPP');
 
   container.innerHTML = `
-    <div class="radio">
+    <div class="radio complete-toggle">
       <div class="disk ${completed}"></div>
     </div>
     <div>

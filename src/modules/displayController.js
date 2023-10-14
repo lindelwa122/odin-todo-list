@@ -31,6 +31,35 @@ const displayController = () => {
     }
   };
 
+  const _completedToggleHandler = () => {
+    const handler = (x) => {
+      const task = x.closest('.task');
+      const todoID = task.dataset.id;
+      const projectID = _currentProject.getID();
+      userInterfaceAPI.updateTodo(projectID, todoID, 'completed');
+      _renderTodos(projectID, _currentProject.getTitle());
+    }
+
+    const throwError = (message) => {
+      throw new Error(message)
+    }
+
+    const getTasks =  () => {
+      const completeToggles = document.querySelectorAll('.complete-toggle');
+
+      if (!completeToggles) {
+        throwError('No tasks (or todos) found');
+      };
+
+      return completeToggles;
+    }
+
+    const completeToggles = getTasks();
+    completeToggles.forEach(x => {
+      x.addEventListener('click', () => handler(x));
+    });
+  }
+
   const _renderTodos = (projectID, projectName) => {
     // Remove todos
     _removeNodes('.task');
@@ -47,6 +76,8 @@ const displayController = () => {
       const todoEle = todoElement(todo);
       main.insertBefore(todoEle, addTask);
     });
+
+    _completedToggleHandler();
   };
 
   const _renderProjects = () => {
