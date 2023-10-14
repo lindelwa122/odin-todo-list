@@ -34,7 +34,7 @@ const displayController = () => {
     const todos = userInterfaceAPI.getTodos(projectID);
 
     const main = document.querySelector('main');
-    const addTask = document.querySelector('new-task');
+    const addTask = document.querySelector('.new-task');
 
     const heading = main.querySelector('.heading > h1');
     heading.textContent = projectName;
