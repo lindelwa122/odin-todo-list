@@ -287,6 +287,63 @@ const displayController = () => {
     });
   }
 
+  const _showHighPriorityView = () => {
+    document.querySelector('#high-view').addEventListener('click', () => {
+      _removeNodes('.task');
+
+      const todos = userInterfaceAPI.getTodosBasedOnPriority(0);
+
+      const main = document.querySelector('main');
+      const addTask = document.querySelector('.new-task');
+
+      const heading = main.querySelector('.heading > h1');
+      heading.textContent = 'Very Important';
+
+      todos.forEach((todo) => {
+        const todoEle = todoElement(todo);
+        main.insertBefore(todoEle, addTask);
+      });
+    });
+  }
+  
+  const _showMediumPriorityView = () => {
+    document.querySelector('#med-view').addEventListener('click', () => {
+      _removeNodes('.task');
+
+      const todos = userInterfaceAPI.getTodosBasedOnPriority(1);
+
+      const main = document.querySelector('main');
+      const addTask = document.querySelector('.new-task');
+
+      const heading = main.querySelector('.heading > h1');
+      heading.textContent = 'Somewhat Important';
+
+      todos.forEach((todo) => {
+        const todoEle = todoElement(todo);
+        main.insertBefore(todoEle, addTask);
+      });
+    });
+  }
+
+  const _showLowPriorityView = () => {
+    document.querySelector('#low-view').addEventListener('click', () => {
+      _removeNodes('.task');
+
+      const todos = userInterfaceAPI.getTodosBasedOnPriority(2);
+
+      const main = document.querySelector('main');
+      const addTask = document.querySelector('.new-task');
+
+      const heading = main.querySelector('.heading > h1');
+      heading.textContent = 'Not So Important';
+
+      todos.forEach((todo) => {
+        const todoEle = todoElement(todo);
+        main.insertBefore(todoEle, addTask);
+      });
+    });
+  }
+
   const _submitProjectForm = () => {
     const form = document.querySelector('#project-form');
     form.addEventListener('submit', () => {
@@ -306,6 +363,9 @@ const displayController = () => {
     _showTodayView();
     _showUpcomingView();
     _showCompletedView();
+    _showHighPriorityView();
+    _showMediumPriorityView();
+    _showLowPriorityView();
     _openProjectForm();
     _openTodoForm();
     _closeModal();
