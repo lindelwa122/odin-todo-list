@@ -270,21 +270,20 @@ const userInterfaceAPI = () => {
 
   /**
    * Updates todo 
-   * @param {string} projectID - The ID of the project that stores todo
    * @param {string} todoID - The ID of the todo to be updated
    * @param {'completed' | 'description' | 'duedate' | 'priority' | 'title'} about - Information to be updated
    * @param {*} newInfo - New information
    * @returns true if the todo was updated successfully, otherwise false
    */
-  const updateTodo = (projectID, todoID, about, newInfo) => {
-    const project = _projects.find((project) => project.getID() === projectID);
-
-    if (!project) {
-      throw new Error(`Project with ID (${projectID}) is not found.`);
+  const updateTodo = (todoID, about, newInfo) => {
+    let todo = undefined;
+    for (const project of _projects) {
+      for (const instance of project.getAll()) {
+        if (instance.getID() === todoID) {
+          todo = instance;
+        }
+      }
     }
-    
-    const todos = project.getAll();
-    const todo = todos.find((todo) => todo.getID() === todoID);
 
     if (!todo) {
       throw new Error(`Todo with ID (${todoID}) is not found.`);
