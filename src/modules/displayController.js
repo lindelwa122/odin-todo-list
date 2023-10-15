@@ -231,10 +231,17 @@ const displayController = () => {
     });
   };
 
+  const _hideEditBtns = () => {
+    document.querySelectorAll('.pencil-container').forEach((el) => {
+      el.style.display = 'none';
+    });
+  }
+
   const _showTodayView = () => {
     document.querySelector('#today-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosDueToday();
       _renderTodos(todos, 'Today');
+      _hideEditBtns();
     });
   }
 
@@ -242,6 +249,7 @@ const displayController = () => {
     document.querySelector('#upcoming-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosDueInTheFuture();
       _renderTodos(todos, 'Upcoming');
+      _hideEditBtns();
     });
   }
 
@@ -249,6 +257,7 @@ const displayController = () => {
     document.querySelector('#completed-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getCompletedTodos();
       _renderTodos(todos, 'Completed');
+      _hideEditBtns();
     });
   }
 
@@ -256,6 +265,7 @@ const displayController = () => {
     document.querySelector('#high-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(0);
       _renderTodos(todos, 'Very Important');
+      _hideEditBtns();
     });
   }
   
@@ -263,6 +273,7 @@ const displayController = () => {
     document.querySelector('#med-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(1);
       _renderTodos(todos, 'Somewhat Important');
+      _hideEditBtns();
     });
   }
 
@@ -270,6 +281,7 @@ const displayController = () => {
     document.querySelector('#low-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(2);
       _renderTodos(todos, 'Not So Important');
+      _hideEditBtns();
     });
   }
 
