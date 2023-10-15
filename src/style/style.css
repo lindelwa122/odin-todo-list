@@ -200,14 +200,13 @@ nav {
 }
 
 .task > .radio {
-  align-items: center;
   border: 1px solid var(--nav-color);
   border-radius: 50%;
   display: flex;
-  grid-row: 1 /-1;
   height: 20px;
   justify-content: center;
   padding: 3px;
+  place-self: center;
   width: 20px;
 }
 
