@@ -143,6 +143,9 @@ const displayController = () => {
         _currentProject = project;
         const todos = userInterfaceAPI.getTodos(project.getID());
         _renderTodos(todos, project.getTitle());
+
+        // show add task
+        document.querySelector('.new-task').style.display = 'flex';
       });
       container.append(projectEle);
     });
@@ -235,6 +238,9 @@ const displayController = () => {
     document.querySelectorAll('.pencil-container').forEach((el) => {
       el.style.display = 'none';
     });
+
+    // show add task
+    document.querySelector('.new-task').style.display = 'none';
   }
 
   const _showTodayView = () => {
