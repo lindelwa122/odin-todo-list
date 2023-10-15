@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { compareAsc } from 'date-fns';
+import { compareAsc, isToday } from 'date-fns';
 
 const validateTodo = (title, descr, dueDate, priority, labels) => {
   if (title.length < 3 || title.length > 50) {
@@ -11,8 +11,8 @@ const validateTodo = (title, descr, dueDate, priority, labels) => {
   }
 
   const result = compareAsc(new Date(), dueDate);
-  if (result == 1) {
-    throw new Error('The due date is in invalid.');
+  if (!isToday(dueDate) && result === 1) {
+    throw new Error('The due date is invalid.');
   }
 
   if (priority !== 0 && priority !== 1 && priority !== 2) {
