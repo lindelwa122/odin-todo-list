@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, isToday, isTomorrow } from 'date-fns';
 
 const todo = (todoInstance) => {
   const container = document.createElement('div');
@@ -23,7 +23,16 @@ const todo = (todoInstance) => {
 
   const completed = todoInstance.taskCompleted() ? 'active' : '';
   const title = todoInstance.getTitle();
-  const dueDate = format(todoInstance.getDueDate(), 'PPPP');
+
+  const dueDate = todoInstance.getDueDate();
+  let dateDisplay;
+  if (isToday(dueDate)) {
+    dateDisplay = 'Today';
+  } else if (isTomorrow(dueDate)) {
+    dateDisplay = 'Tomorrow';
+  } else {
+    dateDisplay = `on ${format(todoInstance.getDueDate(), 'PPPP')}`;
+  }
 
   container.innerHTML = `
     <div class="radio complete-toggle">
@@ -37,7 +46,7 @@ const todo = (todoInstance) => {
       <i class="bi bi-pencil-fill edit-todo"></i>
     </div>
     <div class="deadline-container">
-      <span>Due on ${dueDate}</span>
+      <span>Due ${dateDisplay}</span>
       <i class="bi bi-clock"></i>
     </div>
   `;
