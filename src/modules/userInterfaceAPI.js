@@ -310,6 +310,14 @@ const userInterfaceAPI = () => {
       case 'title':
         updated = todo.updateTitle(newInfo);
         break;
+
+      case 'label':
+        const currentLabels = todo.getLabels();
+        const tobeRemoved = currentLabels.filter((label) => !newInfo.includes(label));
+        const tobeAdded = newInfo.filter((label) => !currentLabels.includes(label));
+
+        tobeRemoved.forEach((label) => todo.removeLabel(label));
+        tobeAdded.forEach((label) => todo.addLabel(label));
     }
 
     return updated;

@@ -7,7 +7,11 @@ const displayController = () => {
 
   const _openTodoForm = () => {
     document.querySelector('.new-task').addEventListener('click', () => {
-      document.querySelector('#todo-form-dialog').showModal();
+      const dialog = document.querySelector('#todo-form-dialog');
+      dialog.showModal();
+
+      // update submit value
+      dialog.querySelector('button').textContent = 'Add New Task';
     });
   };
 
@@ -36,7 +40,7 @@ const displayController = () => {
       const task = x.closest('.task');
       const todoID = task.dataset.id;
       const projectID = _currentProject.getID();
-      userInterfaceAPI.updateTodo(projectID, todoID, 'completed');
+      userInterfaceAPI.updateTodo(todoID, 'completed');
       _renderTodos(projectID, _currentProject.getTitle());
     };
 
@@ -80,10 +84,9 @@ const displayController = () => {
       descriptionInput.value = description;
 
       const duedateInput = form.querySelector('#duedate');
-      duedateInput.value = `
-        ${dueDate.getFullYear()}-${
-          dueDate.getMonth() + 1
-        }-${dueDate.getDate()}`;
+      duedateInput.value = `${dueDate.getFullYear()}-${
+        dueDate.getMonth() + 1
+      }-${dueDate.getDate()}`;
 
       const priorityInput = form.querySelector('#priority');
       priorityInput.value = priority;
@@ -95,8 +98,16 @@ const displayController = () => {
     const editBtns = document.querySelectorAll('.edit-todo');
     editBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        document.querySelector('#todo-form-dialog').showModal();
+        const dialog = document.querySelector('#todo-form-dialog');
+        dialog.showModal();
         updateFormValues(btn);
+
+        const task = btn.closest('.task');
+        const todoID = task.dataset.id;
+        document.querySelector('#todo-id').value = todoID;
+
+        // update submit value
+        dialog.querySelector('button').textContent = 'Update Task';
       });
     });
   };
@@ -155,7 +166,21 @@ const displayController = () => {
         });
       });
     });
+  };
 
+  const _updateTodo = (
+    todoID,
+    title,
+    description,
+    duedate,
+    priority,
+    labels,
+  ) => {
+    userInterfaceAPI.updateTodo(todoID, 'title', title);
+    userInterfaceAPI.updateTodo(todoID, 'description', description);
+    userInterfaceAPI.updateTodo(todoID, 'duedate', duedate);
+    userInterfaceAPI.updateTodo(todoID, 'priority', priority);
+    userInterfaceAPI.updateTodo(todoID, 'label', labels.split(' '));
   };
 
   const _submitTodoForm = () => {
@@ -172,14 +197,26 @@ const displayController = () => {
       const priority = form.querySelector('#priority');
       const labels = form.querySelector('#labels');
 
-      userInterfaceAPI.createTodo(
-        title.value,
-        description.value,
-        new Date(duedate.value),
-        +priority.value,
-        labels.value,
-        _currentProject.getID(),
-      );
+      const todoID = document.querySelector('#todo-id').value;
+      if (todoID) {
+        _updateTodo(
+          todoID,
+          title.value,
+          description.value,
+          new Date(duedate.value),
+          +priority.value,
+          labels.value,
+        );
+      } else {
+        userInterfaceAPI.createTodo(
+          title.value,
+          description.value,
+          new Date(duedate.value),
+          +priority.value,
+          labels.value,
+          _currentProject.getID(),
+        );
+      }
 
       _renderTodos(_currentProject.getID(), _currentProject.getTitle());
 
@@ -189,6 +226,7 @@ const displayController = () => {
       duedate.value = '';
       priority.value = '';
       labels.value = '';
+      document.querySelector('#todo-id').value = '';
     });
   };
 
