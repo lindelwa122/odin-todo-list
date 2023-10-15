@@ -41,7 +41,8 @@ const displayController = () => {
       const todoID = task.dataset.id;
       const projectID = _currentProject.getID();
       userInterfaceAPI.updateTodo(todoID, 'completed');
-      _renderTodos(projectID, _currentProject.getTitle());
+      const todos = userInterfaceAPI.getTodos(projectID);
+      _renderTodos(todos, _currentProject.getTitle());
     };
 
     const throwError = (message) => {
@@ -112,11 +113,9 @@ const displayController = () => {
     });
   };
 
-  const _renderTodos = (projectID, projectName) => {
+  const _renderTodos = (todos, projectName) => {
     // Remove todos
     _removeNodes('.task');
-
-    const todos = userInterfaceAPI.getTodos(projectID);
 
     const main = document.querySelector('main');
     const addTask = document.querySelector('.new-task');
@@ -142,7 +141,8 @@ const displayController = () => {
       const projectEle = projectElement(project);
       projectEle.addEventListener('click', () => {
         _currentProject = project;
-        _renderTodos(project.getID(), project.getTitle());
+        const todos = userInterfaceAPI.getTodos(project.getID());
+        _renderTodos(todos, project.getTitle());
       });
       container.append(projectEle);
     });
@@ -218,7 +218,8 @@ const displayController = () => {
         );
       }
 
-      _renderTodos(_currentProject.getID(), _currentProject.getTitle());
+      const todos = userInterfaceAPI.getTodos(_currentProject.getID());
+      _renderTodos(todos, _currentProject.getTitle());
 
       // clear form
       title.value = '';
@@ -232,115 +233,43 @@ const displayController = () => {
 
   const _showTodayView = () => {
     document.querySelector('#today-view').addEventListener('click', () => {
-      _removeNodes('.task');
-
       const todos = userInterfaceAPI.getTodosDueToday();
-
-      const main = document.querySelector('main');
-      const addTask = document.querySelector('.new-task');
-
-      const heading = main.querySelector('.heading > h1');
-      heading.textContent = 'Today';
-
-      todos.forEach((todo) => {
-        const todoEle = todoElement(todo);
-        main.insertBefore(todoEle, addTask);
-      });
+      _renderTodos(todos, 'Today');
     });
   }
 
   const _showUpcomingView = () => {
     document.querySelector('#upcoming-view').addEventListener('click', () => {
-      _removeNodes('.task');
-
       const todos = userInterfaceAPI.getTodosDueInTheFuture();
-
-      const main = document.querySelector('main');
-      const addTask = document.querySelector('.new-task');
-
-      const heading = main.querySelector('.heading > h1');
-      heading.textContent = 'Upcoming';
-
-      todos.forEach((todo) => {
-        const todoEle = todoElement(todo);
-        main.insertBefore(todoEle, addTask);
-      });
+      _renderTodos(todos, 'Upcoming');
     });
   }
 
   const _showCompletedView = () => {
     document.querySelector('#completed-view').addEventListener('click', () => {
-      _removeNodes('.task');
-
       const todos = userInterfaceAPI.getCompletedTodos();
-
-      const main = document.querySelector('main');
-      const addTask = document.querySelector('.new-task');
-
-      const heading = main.querySelector('.heading > h1');
-      heading.textContent = 'Completed';
-
-      todos.forEach((todo) => {
-        const todoEle = todoElement(todo);
-        main.insertBefore(todoEle, addTask);
-      });
+      _renderTodos(todos, 'Completed');
     });
   }
 
   const _showHighPriorityView = () => {
     document.querySelector('#high-view').addEventListener('click', () => {
-      _removeNodes('.task');
-
       const todos = userInterfaceAPI.getTodosBasedOnPriority(0);
-
-      const main = document.querySelector('main');
-      const addTask = document.querySelector('.new-task');
-
-      const heading = main.querySelector('.heading > h1');
-      heading.textContent = 'Very Important';
-
-      todos.forEach((todo) => {
-        const todoEle = todoElement(todo);
-        main.insertBefore(todoEle, addTask);
-      });
+      _renderTodos(todos, 'Very Important');
     });
   }
   
   const _showMediumPriorityView = () => {
     document.querySelector('#med-view').addEventListener('click', () => {
-      _removeNodes('.task');
-
       const todos = userInterfaceAPI.getTodosBasedOnPriority(1);
-
-      const main = document.querySelector('main');
-      const addTask = document.querySelector('.new-task');
-
-      const heading = main.querySelector('.heading > h1');
-      heading.textContent = 'Somewhat Important';
-
-      todos.forEach((todo) => {
-        const todoEle = todoElement(todo);
-        main.insertBefore(todoEle, addTask);
-      });
+      _renderTodos(todos, 'Somewhat Important');
     });
   }
 
   const _showLowPriorityView = () => {
     document.querySelector('#low-view').addEventListener('click', () => {
-      _removeNodes('.task');
-
       const todos = userInterfaceAPI.getTodosBasedOnPriority(2);
-
-      const main = document.querySelector('main');
-      const addTask = document.querySelector('.new-task');
-
-      const heading = main.querySelector('.heading > h1');
-      heading.textContent = 'Not So Important';
-
-      todos.forEach((todo) => {
-        const todoEle = todoElement(todo);
-        main.insertBefore(todoEle, addTask);
-      });
+      _renderTodos(todos, 'Not So Important');
     });
   }
 
