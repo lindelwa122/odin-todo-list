@@ -45,7 +45,7 @@ const userInterfaceAPI = () => {
   const _getAllTodos = () => {
     const todos = [];
 
-    for (project of _projects) {
+    for (const project of _projects) {
       todos.push(...project.getAll());
     }
 

@@ -230,6 +230,25 @@ const displayController = () => {
     });
   };
 
+  const _showTodayView = () => {
+    document.querySelector('#today-view').addEventListener('click', () => {
+      _removeNodes('.task');
+      
+      const todos = userInterfaceAPI.getTodosDueToday();
+
+      const main = document.querySelector('main');
+      const addTask = document.querySelector('.new-task');
+
+      const heading = main.querySelector('.heading > h1');
+      heading.textContent = 'Today';
+
+      todos.forEach((todo) => {
+        const todoEle = todoElement(todo);
+        main.insertBefore(todoEle, addTask);
+      });
+    })
+  }
+
   const _submitProjectForm = () => {
     const form = document.querySelector('#project-form');
     form.addEventListener('submit', () => {
@@ -246,6 +265,7 @@ const displayController = () => {
   };
 
   const startApp = () => {
+    _showTodayView();
     _openProjectForm();
     _openTodoForm();
     _closeModal();
