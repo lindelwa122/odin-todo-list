@@ -88,17 +88,7 @@ const userInterfaceAPI = () => {
       const func = (item) => item.getPriority() === priority;
       return _filter(todos, func);
     };
-
-    switch (priority) {
-      case 'low':
-        filter(2);
-
-      case 'medium':
-        filter(1);
-
-      case 'high':
-        filter(0);
-    }
+    return filter(priority);
   };
 
   /**
