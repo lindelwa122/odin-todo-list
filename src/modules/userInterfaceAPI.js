@@ -38,6 +38,13 @@ const userInterfaceAPI = () => {
    * @param {string} descr - The description of the project
    */
   const createProject = (name, descr) => {
+    for (const project of _projects) {
+      if (project.getTitle().toLowerCase() === name.toLowerCase()) {
+        alert(`A project with the name ${name} already exists.`);
+        return false;
+      }
+    }
+
     const newProject = project(name, descr);
     _projects.push(newProject);
     return newProject.getID();
