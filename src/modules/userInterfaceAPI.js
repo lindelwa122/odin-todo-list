@@ -141,10 +141,14 @@ const userInterfaceAPI = () => {
    * @returns information about the specified todo
    */
   const getTodoInfo = (todoID) => {
-    const todos = []
-    todos.push(..._projects.map((project) => project.getAll()));
-
-    const todo = todos.find((todo) => todo.getID() === todoID);
+    let todo = undefined;
+    for (const project of _projects) {
+      for (const instance of project.getAll()) {
+        if (instance.getID() === todoID) {
+          todo = instance;
+        }
+      }
+    }
 
     if (!todo) {
       throw new Error(`Todo with an ID of ${todoID} is not found.`);
