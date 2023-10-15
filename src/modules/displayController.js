@@ -38,27 +38,68 @@ const displayController = () => {
       const projectID = _currentProject.getID();
       userInterfaceAPI.updateTodo(projectID, todoID, 'completed');
       _renderTodos(projectID, _currentProject.getTitle());
-    }
+    };
 
     const throwError = (message) => {
-      throw new Error(message)
-    }
+      throw new Error(message);
+    };
 
-    const getTasks =  () => {
+    const getTasks = () => {
       const completeToggles = document.querySelectorAll('.complete-toggle');
 
       if (!completeToggles) {
         throwError('No tasks (or todos) found');
-      };
+      }
 
       return completeToggles;
-    }
+    };
 
     const completeToggles = getTasks();
-    completeToggles.forEach(x => {
+    completeToggles.forEach((x) => {
       x.addEventListener('click', () => handler(x));
     });
-  }
+  };
+
+  const _editTodo = () => {
+    const getTodoInfo = (element) => {
+      const task = element.closest('.task');
+      const todoID = task.dataset.id;
+      return userInterfaceAPI.getTodoInfo(todoID);
+    };
+
+    const updateFormValues = (btn) => {
+      const { title, description, dueDate, priority, labels } =
+        getTodoInfo(btn);
+
+      const form = document.querySelector('#todo-form');
+
+      const titleInput = form.querySelector('#title');
+      titleInput.value = title;
+
+      const descriptionInput = form.querySelector('#description');
+      descriptionInput.value = description;
+
+      const duedateInput = form.querySelector('#duedate');
+      duedateInput.value = `
+        ${dueDate.getFullYear()}-${
+          dueDate.getMonth() + 1
+        }-${dueDate.getDate()}`;
+
+      const priorityInput = form.querySelector('#priority');
+      priorityInput.value = priority;
+
+      const labelsInput = form.querySelector('#labels');
+      labelsInput.value = labels.join(' ');
+    };
+
+    const editBtns = document.querySelectorAll('.edit-todo');
+    editBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelector('#todo-form-dialog').showModal();
+        updateFormValues(btn);
+      });
+    });
+  };
 
   const _renderTodos = (projectID, projectName) => {
     // Remove todos
@@ -78,6 +119,7 @@ const displayController = () => {
     });
 
     _completedToggleHandler();
+    _editTodo();
   };
 
   const _renderProjects = () => {

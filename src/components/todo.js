@@ -34,7 +34,7 @@ const todo = (todoInstance) => {
       <span class="${priority}"></span>
     </div>
     <div class="pencil-container">
-      <i class="bi bi-pencil-fill"></i>
+      <i class="bi bi-pencil-fill edit-todo"></i>
     </div>
     <div class="deadline-container">
       <span>Due on ${dueDate}</span>
