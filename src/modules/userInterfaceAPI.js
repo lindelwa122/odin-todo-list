@@ -85,7 +85,7 @@ const userInterfaceAPI = () => {
   const getTodosBasedOnPriority = (priority) => {
     const filter = (priority) => {
       const todos = _getAllTodos();
-      const func = (item) => item.getPriority() === priority;
+      const func = (item) => !item.taskCompleted() && item.getPriority() === priority;
       return _filter(todos, func);
     };
     return filter(priority);
@@ -100,7 +100,7 @@ const userInterfaceAPI = () => {
     const todosDueInTheFuture = [];
 
     for (const todo of todos) {
-      if (isFuture(todo.getDueDate())) {
+      if (!todo.taskCompleted() && isFuture(todo.getDueDate())) {
         todosDueInTheFuture.push(todo);
       }
     }
@@ -117,7 +117,7 @@ const userInterfaceAPI = () => {
     const todosDueToday = [];
 
     for (const todo of todos) {
-      if (isToday(todo.getDueDate())) {
+      if (!todo.taskCompleted() && isToday(todo.getDueDate())) {
         todosDueToday.push(todo);
       }
     }
