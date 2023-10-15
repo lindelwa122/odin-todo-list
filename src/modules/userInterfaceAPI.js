@@ -40,6 +40,7 @@ const userInterfaceAPI = () => {
   const createProject = (name, descr) => {
     const newProject = project(name, descr);
     _projects.push(newProject);
+    return newProject.getID();
   };
 
   const _getAllTodos = () => {
