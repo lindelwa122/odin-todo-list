@@ -241,7 +241,7 @@ const displayController = () => {
 
     // show add task
     document.querySelector('.new-task').style.display = 'none';
-  }
+  };
 
   const _showTodayView = () => {
     document.querySelector('#today-view').addEventListener('click', () => {
@@ -249,7 +249,7 @@ const displayController = () => {
       _renderTodos(todos, 'Today');
       _hideEditBtns();
     });
-  }
+  };
 
   const _showUpcomingView = () => {
     document.querySelector('#upcoming-view').addEventListener('click', () => {
@@ -257,7 +257,7 @@ const displayController = () => {
       _renderTodos(todos, 'Upcoming');
       _hideEditBtns();
     });
-  }
+  };
 
   const _showCompletedView = () => {
     document.querySelector('#completed-view').addEventListener('click', () => {
@@ -265,7 +265,7 @@ const displayController = () => {
       _renderTodos(todos, 'Completed');
       _hideEditBtns();
     });
-  }
+  };
 
   const _showHighPriorityView = () => {
     document.querySelector('#high-view').addEventListener('click', () => {
@@ -273,15 +273,15 @@ const displayController = () => {
       _renderTodos(todos, 'Very Important');
       _hideEditBtns();
     });
-  }
-  
+  };
+
   const _showMediumPriorityView = () => {
     document.querySelector('#med-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(1);
       _renderTodos(todos, 'Somewhat Important');
       _hideEditBtns();
     });
-  }
+  };
 
   const _showLowPriorityView = () => {
     document.querySelector('#low-view').addEventListener('click', () => {
@@ -289,7 +289,7 @@ const displayController = () => {
       _renderTodos(todos, 'Not So Important');
       _hideEditBtns();
     });
-  }
+  };
 
   const _submitProjectForm = () => {
     const form = document.querySelector('#project-form');
@@ -318,6 +318,29 @@ const displayController = () => {
     _closeModal();
     _submitProjectForm();
     _submitTodoForm();
+
+    const projects = userInterfaceAPI.getAllProjects();
+
+    let defaultProjectID;
+    if (projects.length === 0) {
+      defaultProjectID = userInterfaceAPI.createProject(
+        'Personal',
+        'Where your personal goals belong',
+      );
+    } else {
+      defaultProjectID = userInterfaceAPI.getDefaultProjectID();
+    }
+
+    _renderProjects();
+
+    const todos = userInterfaceAPI.getTodos(defaultProjectID);
+    _renderTodos(todos, 'Personal');
+
+    for (const project of projects) {
+      if (project.getID() === defaultProjectID) {
+        _currentProject = project;
+      }
+    }
   };
 
   return { startApp };
