@@ -50,6 +50,11 @@ const userInterfaceAPI = () => {
     return newProject.getID();
   };
 
+  const deleteTodo = (projectID, todoID) => {
+    const project = _projects.find((project) => project.getID() === projectID);
+    project.removeTodo(todoID);
+  }
+
   const _getAllTodos = () => {
     const todos = [];
 
