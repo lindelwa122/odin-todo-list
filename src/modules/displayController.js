@@ -147,8 +147,15 @@ const displayController = () => {
       x.addEventListener('click', () => {
         const dialog = x.closest('dialog');
         dialog.close();
+
+        // clear form
+        const formFields = dialog.querySelectorAll('form > *:not(label)');
+        formFields.forEach((field) => {
+          field.value = '';
+        });
       });
     });
+
   };
 
   const _submitTodoForm = () => {
