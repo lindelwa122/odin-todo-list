@@ -86,6 +86,17 @@ const userInterfaceAPI = () => {
   };
 
   /**
+   * Retrieves the ID of the default (Personal) project
+   * @returns {string} ID of the default project
+   */
+  const getDefaultProjectID = () => {
+    const project = _projects.find(
+      (project) => project.getTitle() === 'Personal',
+    );
+    return project.getID();
+  };
+
+  /**
    * Retrieves todos that have a priority that matches the one specified.
    * @param {0 | 1 | 2} priority
    * A number between 0 and 2. Where 0 represents the highest priority and 2 represents the lowest priority
@@ -93,7 +104,8 @@ const userInterfaceAPI = () => {
   const getTodosBasedOnPriority = (priority) => {
     const filter = (priority) => {
       const todos = _getAllTodos();
-      const func = (item) => !item.taskCompleted() && item.getPriority() === priority;
+      const func = (item) =>
+        !item.taskCompleted() && item.getPriority() === priority;
       return _filter(todos, func);
     };
     return filter(priority);
@@ -159,7 +171,7 @@ const userInterfaceAPI = () => {
     const labels = todo.getLabels();
 
     return { title, description, dueDate, priority, labels };
-  }
+  };
 
   /**
    *
@@ -267,7 +279,7 @@ const userInterfaceAPI = () => {
   };
 
   /**
-   * Updates todo 
+   * Updates todo
    * @param {string} todoID - The ID of the todo to be updated
    * @param {'completed' | 'description' | 'duedate' | 'priority' | 'title'} about - Information to be updated
    * @param {*} newInfo - New information
@@ -311,21 +323,26 @@ const userInterfaceAPI = () => {
 
       case 'label':
         const currentLabels = todo.getLabels();
-        const tobeRemoved = currentLabels.filter((label) => !newInfo.includes(label));
-        const tobeAdded = newInfo.filter((label) => !currentLabels.includes(label));
+        const tobeRemoved = currentLabels.filter(
+          (label) => !newInfo.includes(label),
+        );
+        const tobeAdded = newInfo.filter(
+          (label) => !currentLabels.includes(label),
+        );
 
         tobeRemoved.forEach((label) => todo.removeLabel(label));
         tobeAdded.forEach((label) => todo.addLabel(label));
     }
 
     return updated;
-  }
+  };
 
   return {
     createTodo,
     createProject,
     getAllProjects,
     getCompletedTodos,
+    getDefaultProjectID,
     getTodos,
     getTodosBasedOnPriority,
     getTodosDueInTheFuture,
