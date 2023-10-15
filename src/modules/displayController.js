@@ -268,7 +268,24 @@ const displayController = () => {
     });
   }
 
+  const _showCompletedView = () => {
+    document.querySelector('#completed-view').addEventListener('click', () => {
+      _removeNodes('.task');
 
+      const todos = userInterfaceAPI.getCompletedTodos();
+
+      const main = document.querySelector('main');
+      const addTask = document.querySelector('.new-task');
+
+      const heading = main.querySelector('.heading > h1');
+      heading.textContent = 'Completed';
+
+      todos.forEach((todo) => {
+        const todoEle = todoElement(todo);
+        main.insertBefore(todoEle, addTask);
+      });
+    });
+  }
 
   const _submitProjectForm = () => {
     const form = document.querySelector('#project-form');
@@ -288,6 +305,7 @@ const displayController = () => {
   const startApp = () => {
     _showTodayView();
     _showUpcomingView();
+    _showCompletedView();
     _openProjectForm();
     _openTodoForm();
     _closeModal();
