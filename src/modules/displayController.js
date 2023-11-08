@@ -76,23 +76,21 @@ const displayController = () => {
       const { title, description, dueDate, priority, labels } =
         getTodoInfo(btn);
 
-      const form = document.querySelector('#todo-form');
-
-      const titleInput = form.querySelector('#title');
+      const titleInput = document.querySelector('#todo-form > #title');
       titleInput.value = title;
 
-      const descriptionInput = form.querySelector('#description');
+      const descriptionInput = document.querySelector('#todo-form > #description');
       descriptionInput.value = description;
 
-      const duedateInput = form.querySelector('#duedate');
+      const duedateInput = document.querySelector('#todo-form > #duedate');
       duedateInput.value = `${dueDate.getFullYear()}-${
         dueDate.getMonth() + 1
       }-${dueDate.getDate()}`;
 
-      const priorityInput = form.querySelector('#priority');
+      const priorityInput = document.querySelector('#todo-form > #priority');
       priorityInput.value = priority;
 
-      const labelsInput = form.querySelector('#labels');
+      const labelsInput = document.querySelector('#todo-form > #labels');
       labelsInput.value = labels.join(' ');
     };
 
