@@ -31,7 +31,7 @@ const validateTodo = (title, descr, dueDate, priority, labels) => {
  * @param {Date} dueDate - The due date of when the todo must completed
  * @param {number} priority - The number representing how important the todo is
  * @param {Array} labels - The labels associated with the todo
- * @returns
+ * @return {object}
  */
 const todo = (title, descr, dueDate, priority, labels) => {
   validateTodo(title, descr, dueDate, priority, labels);
@@ -46,8 +46,6 @@ const todo = (title, descr, dueDate, priority, labels) => {
   let _priority = priority;
   const _labels = labels;
 
-  console.log(priority);
-
   const getID = () => _id;
   const getTitle = () => _title;
   const getDescr = () => _descr;
@@ -60,6 +58,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
   /**
    * Returns true if the title was updated successfully; otherwise false.
    * @param {string} newTitle
+   * @return {Boolean} true if the the title was updated successfully; otherwise false.
    */
   const updateTitle = (newTitle) => {
     if (newTitle.length < 3 || newTitle.length > 50) {
@@ -68,9 +67,11 @@ const todo = (title, descr, dueDate, priority, labels) => {
     _title = newTitle;
     return true;
   };
+
   /**
    * Returns true if the description was updated successfully; otherwise false.
    * @param {string} newDescr
+   * @return {Boolean} true if the the description was updated successfully; otherwise false.
    */
   const updateDescr = (newDescr) => {
     if (newDescr.length < 10 || newDescr.length > 250) {
@@ -84,6 +85,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
    * Returns true if the due date was updated successfully, otherwise false.
    * @param {Date} newDueDate
    * must be bigger than the current date.
+   * @return {Boolean} true if the the due date was updated successfully; otherwise false.
    */
   const updateDueDate = (newDueDate) => {
     const result = compareAsc(new Date(), newDueDate);
@@ -98,6 +100,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
    * Returns true if priority was updated successfully; otherwise false.
    * @param {0 | 1 | 2} newPriority
    * A number between 0 and 2. Where 0 represents the highest priority and 2 represents the lowest priority
+   * @return {Boolean} true if the the priority was updated successfully; otherwise false.
    */
   const updatePriority = (newPriority) => {
     if (newPriority !== 0 && newPriority !== 1 && newPriority !== 2) {
@@ -112,6 +115,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
   /**
    * Returns true if a label was added successfully; otherwise false.
    * @param {string} label
+   * @return {Boolean} true if the the label was added successfully; otherwise false.
    */
   const addLabel = (label) => {
     if (label.length < 1 || label.length > 50 || _labels.includes(label)) {
@@ -125,7 +129,7 @@ const todo = (title, descr, dueDate, priority, labels) => {
   /**
    * Returns true if a label was found and removed; otherwise false.
    * @param {string} label
-   * @returns
+   * @return {Boolean} true if the the label was removed successfully; otherwise false.
    */
   const removeLabel = (label) => {
     const index = _labels.findIndex((item) => item === label);

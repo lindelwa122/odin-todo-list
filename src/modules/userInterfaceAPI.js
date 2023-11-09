@@ -4,6 +4,7 @@ import { isFuture, isToday } from 'date-fns';
 
 /**
  * Handles user interactions.
+ * @return {object}
  */
 const userInterfaceAPI = () => {
   const _projects = [];
@@ -16,7 +17,6 @@ const userInterfaceAPI = () => {
    * @param {0 | 1 | 2} priority - How important is the todo?
    * @param {string} labels - Labels associated with the todo
    * @param {string} projectID -ID of the project associated with tod
-   * @returns
    */
   const createTodo = (title, descr, dueDate, priority, labels, projectID) => {
     const labelList = labels.split(' ');
@@ -36,6 +36,7 @@ const userInterfaceAPI = () => {
    * Creates a project
    * @param {string} name - The name of the project
    * @param {string} descr - The description of the project
+   * @return {false | string} false if a project with the same title already exists; otherwise an id of the project.
    */
   const createProject = (name, descr) => {
     for (const project of _projects) {
@@ -80,7 +81,7 @@ const userInterfaceAPI = () => {
   /**
    * Retrieves all todos of the specified project
    * @param {string} projectID - An ID of the project
-   * @returns {Array} - An array of todos that belong to the specified project. If projectID doesn't match any project, an empty array is returned instead.
+   * @return {Array} - An array of todos that belong to the specified project. If projectID doesn't match any project, an empty array is returned instead.
    */
   const getTodos = (projectID) => {
     const project = _projects.find((project) => project.getID() === projectID);
@@ -92,7 +93,7 @@ const userInterfaceAPI = () => {
 
   /**
    * Retrieves the ID of the default (Personal) project
-   * @returns {string} ID of the default project
+   * @return {string} ID of the default project
    */
   const getDefaultProjectID = () => {
     const project = _projects.find(
@@ -105,6 +106,7 @@ const userInterfaceAPI = () => {
    * Retrieves todos that have a priority that matches the one specified.
    * @param {0 | 1 | 2} priority
    * A number between 0 and 2. Where 0 represents the highest priority and 2 represents the lowest priority
+   * @return {Array} an array of todos.
    */
   const getTodosBasedOnPriority = (priority) => {
     const filter = (priority) => {
@@ -118,7 +120,7 @@ const userInterfaceAPI = () => {
 
   /**
    * Retrieves todos whose deadline is in the future.
-   * @returns todos with due dates (deadline) in the future
+   * @return {Array} todos with due dates (deadline) in the future
    */
   const getTodosDueInTheFuture = () => {
     const todos = _getAllTodos();
@@ -135,7 +137,7 @@ const userInterfaceAPI = () => {
 
   /**
    *
-   * @returns todos whose deadline is today
+   * @return {Array} todos whose deadline is today
    */
   const getTodosDueToday = () => {
     const todos = _getAllTodos();
@@ -153,7 +155,7 @@ const userInterfaceAPI = () => {
   /**
    * Retrieves information about the specified todo
    * @param {string} todoID - The ID of the todo to get information on
-   * @returns information about the specified todo
+   * @return {object} information about the specified todo
    */
   const getTodoInfo = (todoID) => {
     let todo = undefined;
@@ -181,7 +183,7 @@ const userInterfaceAPI = () => {
   /**
    *
    * @param {Array} todos
-   * @returns
+   * @return {Array} todos ordered based on priority
    */
   const _orderbyPriority = (todos) => {
     return todos.sort((a, b) => {
@@ -198,7 +200,7 @@ const userInterfaceAPI = () => {
   /**
    *
    * @param {Array} todos
-   * @returns
+   * @return {Array} todos ordered by title in ascending order
    */
   const _orderbyTitleAsc = (todos) => {
     return todos.sort((a, b) => {
@@ -215,7 +217,7 @@ const userInterfaceAPI = () => {
   /**
    *
    * @param {Array} todos
-   * @returns
+   * @return {Array} todos ordered by title in descending order
    */
   const _orderbyTitleDesc = (todos) => {
     return todos.sort((a, b) => {
@@ -232,7 +234,7 @@ const userInterfaceAPI = () => {
   /**
    *
    * @param {Array} todos
-   * @returns
+   * @return {Array} todos ordered based on their due dates
    */
   const _orderbyDueDate = (todos) => {
     return todos.sort((a, b) => compareAsc(a.getDueDate(), b.getDueDate()));
@@ -241,7 +243,7 @@ const userInterfaceAPI = () => {
   /**
    *
    * @param {Array} todos
-   * @returns
+   * @return {Array} todos ordered based on their creation date
    */
   const _orderbyDateCreated = (todos) => {
     return todos.sort((a, b) =>
@@ -253,7 +255,7 @@ const userInterfaceAPI = () => {
    * Returns an ordered array of todos depending on orderby.
    * @param {"ascending" | "descending" | "priority" | "created" | "duedate"} orderby - Instruction on how the todos must be ordered
    * @param {string} projectID - ID of the project
-   * @returns ordered todos
+   * @return {Array} todos ordered based on orderby parameter
    */
   const orderTodos = (orderby, projectID) => {
     let project;
@@ -288,7 +290,7 @@ const userInterfaceAPI = () => {
    * @param {string} todoID - The ID of the todo to be updated
    * @param {'completed' | 'description' | 'duedate' | 'priority' | 'title'} about - Information to be updated
    * @param {*} newInfo - New information
-   * @returns true if the todo was updated successfully, otherwise false
+   * @return {Boolean} true if the todo was updated successfully, otherwise false
    */
   const updateTodo = (todoID, about, newInfo) => {
     let todo = undefined;

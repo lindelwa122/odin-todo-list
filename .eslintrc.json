@@ -9,7 +9,6 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-console": "warn",
-    "requireReturn": false
+    "no-console": "warn"
   }
 }

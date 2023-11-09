@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
  * Represents a group of todos
  * @param {string} title - The title of the project
  * @param {string} descr - The description of the project
- * @return public methods of project
+ * @return {object} public methods of project
  */
 const project = (title, descr) => {
   const _id = nanoid();
@@ -17,7 +17,7 @@ const project = (title, descr) => {
 
   /**
    * Adds a new todo
-   * @param {{}} todo  - A todo instance
+   * @param {object} todo  - A todo instance
    */
   const addTodo = (todo) => {
     _todos.push(todo);
@@ -26,7 +26,7 @@ const project = (title, descr) => {
   /**
    * Removes a todo and if successfuly returns true; otherwise false.
    * @param {string} id
-   * @returns
+   * @return {Boolean} true if todo is removed successfully; otherwise false
    */
   const removeTodo = (id) => {
     const index = _todos.findIndex((todo) => todo.getID() === id);
