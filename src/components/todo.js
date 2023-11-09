@@ -44,6 +44,7 @@ const todo = (todoInstance) => {
     </div>
     <div class="pencil-container">
       <i class="bi bi-pencil-fill edit-todo"></i>
+      <i class="bi bi-trash3 delete-todo"></i>
     </div>
     <div class="deadline-container">
       <span>Due ${dateDisplay}</span>
