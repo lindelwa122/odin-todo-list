@@ -29,7 +29,7 @@ const project = (title, descr) => {
    * @returns
    */
   const removeTodo = (id) => {
-    const index = _todos.findIndex((todo) => todo.id === id);
+    const index = _todos.findIndex((todo) => todo.getID() === id);
     if (index === -1) return false;
     _todos.splice(index, 1);
     return true;
