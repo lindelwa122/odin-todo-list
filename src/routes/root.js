@@ -1,7 +1,8 @@
 import nav from "../components/nav";
+import sidebar from "../components/sidebar";
 
 const root = {
-  children: [nav]
+  children: [nav, sidebar]
 };
 
 export default root;
