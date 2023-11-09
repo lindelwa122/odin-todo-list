@@ -29,8 +29,13 @@ html {
 
 button {
   border-radius: 10px;
+  cursor: pointer;
   padding: 10px;
   width: 100%;
+}
+
+.close-modal {
+  cursor: pointer;
 }
 
 .deadline-container {
@@ -43,6 +48,11 @@ button {
 
 .deadline-container > i {
   font-size: 0.8rem;
+}
+
+.delete-todo, 
+.edit-todo {
+  cursor: pointer;
 }
 
 .description {
@@ -171,6 +181,10 @@ nav {
   display: flex;
   gap: 7px;
   padding: 20px 0;
+}
+
+.open-project-form {
+  cursor: pointer;
 }
 
 .project > .heading {
