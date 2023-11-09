@@ -345,6 +345,7 @@ const userInterfaceAPI = () => {
   return {
     createTodo,
     createProject,
+    deleteTodo,
     getAllProjects,
     getCompletedTodos,
     getDefaultProjectID,
