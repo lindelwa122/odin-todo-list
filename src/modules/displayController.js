@@ -111,6 +111,24 @@ const displayController = () => {
     });
   };
 
+  const _deleteTodo = () => {
+    const delBtns = document.querySelectorAll('.delete-todo');
+
+    delBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const task = btn.closest('.task');
+        const taskID = task.dataset.id;
+
+        if (confirm('Are you sure you want to delete this todo?')) {
+          userInterfaceAPI.deleteTodo(_currentProject.getID(), taskID);
+        }
+
+        const todos = userInterfaceAPI.getTodos(_currentProject.getID());
+        _renderTodos(todos, _currentProject.getTitle());
+      });
+    });
+  }
+
   const _renderTodos = (todos, projectName) => {
     // Remove todos
     _removeNodes('.task');
@@ -128,6 +146,7 @@ const displayController = () => {
 
     _completedToggleHandler();
     _editTodo();
+    _deleteTodo();
   };
 
   const _renderProjects = () => {
