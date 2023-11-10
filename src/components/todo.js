@@ -2,12 +2,20 @@ import { format, isToday, isTomorrow } from 'date-fns';
 import pencilFill from 'bootstrap-icons/icons/pencil-fill.svg';
 import trash3 from 'bootstrap-icons/icons/trash3.svg';
 import clock from 'bootstrap-icons/icons/clock.svg';
+import userInterfaceAPI from '../modules/userInterfaceAPI';
 
 const todo = (todoInstance) => {
   const radio = {
-    options: { classList: ['radio', 'complete-toggle'] },
+    options: { 
+      classList: ['radio', 'complete-toggle'],
+      onclick: (e) => {
+        userInterfaceAPI.updateTodo(todoInstance.getID(), 'completed');
+        const container = e.target.closest('.task');
+        container.querySelector('.disk').classList.toggle('active');
+      }
+    },
     children: [{
-      options: { classList: ['disk', todoInstance.taskCompleted() ? 'active' : ''] }
+      options: { classList: ['disk', todoInstance.taskCompleted() ? 'active' : ''] },
     }]
   };
 
