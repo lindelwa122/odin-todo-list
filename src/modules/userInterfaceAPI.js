@@ -361,6 +361,9 @@ const userInterfaceAPI = () => {
     return false;
   }
 
+  // If todo is found in any project then it exists, otherwise it doesn't
+  const todoExists = (todoID) => Boolean(getProject(todoID));
+
   return {
     createTodo,
     createProject,
@@ -375,6 +378,7 @@ const userInterfaceAPI = () => {
     getTodosDueToday,
     getTodoInfo,
     orderTodos,
+    todoExists,
     updateTodo,
   };
 };
