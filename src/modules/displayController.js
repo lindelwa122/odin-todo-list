@@ -149,14 +149,19 @@ const displayController = () => {
     });
   };
 
-  const _renderProjects = () => {
+  const displayProjects = () => {
     const projects = userInterfaceAPI.getAllProjects();
 
     // Clear list
-    domManager.update({ 
-      selector: '#project-list', 
-      action: 'removeChild', 
-      predicate: (el) => el.classList.contains('project-item')
+    const children = [];
+    domManager.read('#project-list', 'childNodes').forEach((el) => {
+      children.push(el);
+    });
+
+    children.forEach((child) => {
+      if (child.classList.contains('project-item')) {
+        child.remove();
+      }
     });
     
     projects.forEach((instance) => {
@@ -165,7 +170,7 @@ const displayController = () => {
   };
 
   const _renderPageContents = () => {
-    _renderProjects();
+    displayProjects();
   };
 
   const _closeModal = () => {
@@ -332,7 +337,7 @@ const displayController = () => {
       defaultProjectID = userInterfaceAPI.getDefaultProjectID();
     }
 
-    _renderProjects();
+    displayProjects();
 
     const todos = userInterfaceAPI.getTodos(defaultProjectID);
     displayTodos(todos, 'Personal');
@@ -360,7 +365,7 @@ const displayController = () => {
     _createDefaultProject();
   };
 
-  return { displayTodos, startApp };
+  return { displayTodos, displayProjects, startApp };
 };
 
 export default displayController();
