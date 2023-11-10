@@ -51,9 +51,13 @@ const userInterfaceAPI = () => {
     return newProject.getID();
   };
 
-  const deleteTodo = (projectID, todoID) => {
-    const project = _projects.find((project) => project.getID() === projectID);
-    project.removeTodo(todoID);
+  const deleteTodo = (todoID) => {
+    _projects.forEach((project) => {
+      const todos = project.getAll();
+      todos.forEach((todo) => {
+        if (todo.getID === todoID) project.removeTodo(todoID);
+      });
+    });
   }
 
   const _getAllTodos = () => {
