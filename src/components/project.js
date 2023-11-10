@@ -1,4 +1,7 @@
 import boxes from 'bootstrap-icons/icons/boxes.svg';
+import userInterfaceAPI from '../modules/userInterfaceAPI';
+import { store } from 'dom-wizard';
+import displayController from '../modules/displayController';
 
 const project = (projectInstance) => {
   const icon = {
@@ -18,6 +21,11 @@ const project = (projectInstance) => {
     options: {
       className: 'project-item',
       title: projectInstance.getDescr(),
+      onclick: () => {
+        store.updateState('currentProject', projectInstance);
+        const todos = userInterfaceAPI.getTodos(projectInstance.getID());
+        displayController.displayTodos(todos, projectInstance.getTitle());
+      }
     },
     children: [icon, text],
   };
