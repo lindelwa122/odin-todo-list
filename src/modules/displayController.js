@@ -1,6 +1,7 @@
 import userInterfaceAPI from './userInterfaceAPI';
 import projectElement from '../components/project';
 import todoElement from '../components/todo';
+import { domManager } from 'dom-wizard';
 
 const displayController = () => {
   let _currentProject;
@@ -152,19 +153,15 @@ const displayController = () => {
   const _renderProjects = () => {
     const projects = userInterfaceAPI.getAllProjects();
 
-    const container = document.querySelector('#project-list');
-    _removeNodes('.project-item');
-    projects.forEach((project) => {
-      const projectEle = projectElement(project);
-      projectEle.addEventListener('click', () => {
-        _currentProject = project;
-        const todos = userInterfaceAPI.getTodos(project.getID());
-        _renderTodos(todos, project.getTitle());
-
-        // show add task
-        document.querySelector('.new-task').style.display = 'flex';
-      });
-      container.append(projectEle);
+    // Clear list
+    domManager.update({ 
+      selector: '#project-list', 
+      action: 'removeChild', 
+      predicate: (el) => el.classList.contains('project-item')
+    });
+    
+    projects.forEach((instance) => {
+      domManager.create(projectElement(instance), '#project-list', true);
     });
   };
 
@@ -323,19 +320,7 @@ const displayController = () => {
     });
   };
 
-  const startApp = () => {
-    _showTodayView();
-    _showUpcomingView();
-    _showCompletedView();
-    _showHighPriorityView();
-    _showMediumPriorityView();
-    _showLowPriorityView();
-    _openProjectForm();
-    _openTodoForm();
-    _closeModal();
-    _submitProjectForm();
-    _submitTodoForm();
-
+  const _createDefaultProject = () => {
     const projects = userInterfaceAPI.getAllProjects();
 
     let defaultProjectID;
@@ -350,14 +335,30 @@ const displayController = () => {
 
     _renderProjects();
 
-    const todos = userInterfaceAPI.getTodos(defaultProjectID);
-    _renderTodos(todos, 'Personal');
+    // const todos = userInterfaceAPI.getTodos(defaultProjectID);
+    // _renderTodos(todos, 'Personal');
 
     for (const project of projects) {
       if (project.getID() === defaultProjectID) {
         _currentProject = project;
       }
     }
+  }
+  
+  const startApp = () => {
+    // _showTodayView();
+    // _showUpcomingView();
+    // _showCompletedView();
+    // _showHighPriorityView();
+    // _showMediumPriorityView();
+    // _showLowPriorityView();
+    // _openProjectForm();
+    // _openTodoForm();
+    // _closeModal();
+    // _submitProjectForm();
+    // _submitTodoForm();
+
+    _createDefaultProject();
   };
 
   return { startApp };
