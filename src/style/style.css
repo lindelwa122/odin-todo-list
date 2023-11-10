@@ -13,7 +13,7 @@
   box-sizing: border-box;
 }
 
-body {
+#root > div {
   display: grid;
   font:
     1.2rem 'Montserrat',
