@@ -55,7 +55,17 @@ const todo = (todoInstance) => {
       },
       { 
         tagName: 'img', 
-        options: { src: trash3, alt: 'Icon', className: 'delete-todo' }
+        options: { 
+          src: trash3, 
+          alt: 'Icon', 
+          className: 'delete-todo',
+          onclick: (e) => {
+            if (confirm('Are you sure you want to delete this todo?')) {
+              userInterfaceAPI.deleteTodo(todoInstance.getID());
+              e.target.closest('.task').remove();
+            }
+          }
+        }
       }
     ]
   }
