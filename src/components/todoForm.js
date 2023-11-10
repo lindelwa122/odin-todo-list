@@ -1,9 +1,29 @@
 import xLg from 'bootstrap-icons/icons/x-lg.svg';
+import userInterfaceAPI from '../modules/userInterfaceAPI';
+import { domManager, store } from 'dom-wizard';
+import displayController from '../modules/displayController';
 
 const todoForm = () => {
   const show = () => {
     const dialog = document.querySelector('#todo-form-dialog');
     dialog.showModal();
+
+    // Clear options
+    domManager.update({ 
+      selector: '#todo-form-dialog select#project', 
+      action: 'update', 
+      innerHTML: ''
+    });
+
+    // Add options in the select form field
+    const projects = userInterfaceAPI.getAllProjects();
+    projects.forEach((project) => {
+      domManager.create({
+        tagName: 'option',
+        text: project.getTitle(),
+        options: { value: project.getID() }
+      }, '#todo-form-dialog select#project', true);
+    });
   }
 
   const close = () => {
@@ -29,10 +49,41 @@ const todoForm = () => {
         tagName: tag,
         options: options
       });
+
+      const getFormData = (form) => {
+        const formData = {};
+
+        for (const field of form) {
+          formData[field.name] = field.value;
+        }
+
+        return formData;
+      }
+
+      const submitHandler = (e) => {
+        const { title, description, priority, duedate, labels, project } = getFormData(e.target);
+
+        userInterfaceAPI.createTodo(
+          title, 
+          description, 
+          new Date(duedate), 
+          +priority, 
+          labels,
+          project
+        );
+
+        const currentProject = store.getState('currentProject');
+        const todos = userInterfaceAPI.getTodos(project);
+        displayController.displayTodos(todos, currentProject.getTitle());
+      }
   
       return {
         tagName: 'form',
-        options: { id: 'todo-form', method: 'dialog' },
+        options: { 
+          id: 'todo-form', 
+          method: 'dialog',
+          onsubmit: submitHandler,
+        },
         children: [
           formField('input', { type: 'hidden', value: '', id: 'todo-id' }),
           formField('label', { for: 'title', textContent: 'Title' }),
@@ -74,6 +125,12 @@ const todoForm = () => {
               formField('option', { value: 2, textContent: 'Low Priority' })
             ]
           },
+          formField('label', { for: 'project', textContent: 'Where does this task belong?' }),
+          formField('select', {
+            id: 'project',
+            name: 'project',
+            required: true,
+          }),
           formField('label', { for: 'labels', textContent: 'Labels' }),
           formField('input', { 
             id: 'labels',
