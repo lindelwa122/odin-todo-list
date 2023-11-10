@@ -61,15 +61,19 @@ const todoForm = () => {
             required: true
           }),
           formField('label', { for: 'priority', textContent: 'How important is this task?' }),
-          formField('select', { 
-            name: 'priority', 
-            id: 'priority', 
-            required: true 
-          }).children = [
-            formField('option', { value: 0, textContent: 'High Priority' }),
-            formField('option', { value: 1, textContent: 'Medium Priority' }),
-            formField('option', { value: 2, textContent: 'Low Priority' })
-          ],
+          { 
+            tagName: 'select', 
+            options: {
+              id: 'priority',
+              name: 'priority',
+              required: true
+            },
+            children: [
+              formField('option', { value: 0, textContent: 'High Priority' }),
+              formField('option', { value: 1, textContent: 'Medium Priority' }),
+              formField('option', { value: 2, textContent: 'Low Priority' })
+            ]
+          },
           formField('label', { for: 'labels', textContent: 'Labels' }),
           formField('input', { 
             id: 'labels',
