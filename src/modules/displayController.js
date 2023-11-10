@@ -145,7 +145,7 @@ const displayController = () => {
     });
 
     todos.forEach((instance) => {
-      domManager.create(todoElement(instance), 'main > .tasks');
+      domManager.create(todoElement(instance), 'main > .tasks', true);
     });
   };
 
