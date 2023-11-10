@@ -1,4 +1,7 @@
 import { format, isToday, isTomorrow } from 'date-fns';
+import pencilFill from 'bootstrap-icons/icons/pencil-fill.svg';
+import trash3 from 'bootstrap-icons/icons/trash3.svg';
+import clock from 'bootstrap-icons/icons/clock.svg';
 
 const todo = (todoInstance) => {
   const radio = {
