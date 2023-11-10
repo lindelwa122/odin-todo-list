@@ -3,6 +3,8 @@ import pencilFill from 'bootstrap-icons/icons/pencil-fill.svg';
 import trash3 from 'bootstrap-icons/icons/trash3.svg';
 import clock from 'bootstrap-icons/icons/clock.svg';
 import userInterfaceAPI from '../modules/userInterfaceAPI';
+import { fillForm } from '../utils/utils';
+import todoForm from './todoForm';
 
 const todo = (todoInstance) => {
   const radio = {
@@ -51,7 +53,25 @@ const todo = (todoInstance) => {
     children: [
       { 
         tagName: 'img', 
-        options: { src: pencilFill, alt: 'Icon', className: 'edit-todo' }
+        options: { 
+          src: pencilFill, 
+          alt: 'Icon', 
+          className: 'edit-todo',
+          onclick: () => {
+            const project = userInterfaceAPI.getProject(todoInstance.getID());
+
+            fillForm(
+              '#todo-form', 
+              Object.assign(
+                {}, 
+                userInterfaceAPI.getTodoInfo(todoInstance.getID()), 
+                { labels: labels.join(' '), project: project.getID() }
+              )
+            );
+
+            todoForm.show();
+          }
+        }
       },
       { 
         tagName: 'img', 
