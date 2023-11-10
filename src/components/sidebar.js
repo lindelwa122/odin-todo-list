@@ -1,6 +1,7 @@
 import calendar2Date from 'bootstrap-icons/icons/calendar2-date.svg';
 import calendar2Week from 'bootstrap-icons/icons/calendar2-week.svg';
 import check2Circle from 'bootstrap-icons/icons/check2-circle.svg';
+import projectForm from './projectForm';
 
 const sidebar = () => {
   const option = (id, title, imgSrc=undefined, iClass=undefined) => {
@@ -33,6 +34,7 @@ const sidebar = () => {
     },
     children: [{ 
       options: { 
+        onclick: projectForm.show,
         classList: ['heading', 'open-project-form']}, 
         text: 'Project' 
       }
