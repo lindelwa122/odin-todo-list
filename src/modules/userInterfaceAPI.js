@@ -55,7 +55,7 @@ const userInterfaceAPI = () => {
     _projects.forEach((project) => {
       const todos = project.getAll();
       todos.forEach((todo) => {
-        if (todo.getID === todoID) project.removeTodo(todoID);
+        if (todo.getID() === todoID) project.removeTodo(todoID);
       });
     });
   }
