@@ -1,7 +1,7 @@
 import plusLg from 'bootstrap-icons/icons/plus-lg.svg';
 
 const main = () => {
-  const heading = { options: { className: 'heading' } };
+  const heading = { tagName: 'h1', options: { className: 'heading' } };
   const tasks = { options: { className: 'tasks' } };
   const newTasks = {
     options: { className: 'new-task' },
