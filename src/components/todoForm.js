@@ -73,7 +73,7 @@ const todoForm = () => {
         );
 
         const currentProject = store.getState('currentProject');
-        const todos = userInterfaceAPI.getTodos(project);
+        const todos = userInterfaceAPI.getTodos(currentProject.getID());
         displayController.displayTodos(todos, currentProject.getTitle());
       }
   
