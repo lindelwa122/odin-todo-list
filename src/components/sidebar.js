@@ -2,28 +2,44 @@ import calendar2Date from 'bootstrap-icons/icons/calendar2-date.svg';
 import calendar2Week from 'bootstrap-icons/icons/calendar2-week.svg';
 import check2Circle from 'bootstrap-icons/icons/check2-circle.svg';
 import projectForm from './projectForm';
+import displayController from '../modules/displayController';
+import userInterfaceAPI from '../modules/userInterfaceAPI';
+import { store } from 'dom-wizard';
 
 const sidebar = () => {
-  const option = (id, title, imgSrc=undefined, iClass=undefined) => {
+  const option = (id, title, getTodosMethod, imgSrc=undefined, iClass=undefined, ...args) => {
     const icon = imgSrc 
       ? { tagName: 'img', options: { src: imgSrc, icon: 'icon' }}
       : { tagName: 'i', options: { classList: ['bi', iClass] }}; 
 
+    const clickHandler = () => {
+      store.updateState('currentProject', undefined);
+      const todos = getTodosMethod(...args);
+      displayController.displayTodos(todos, title);
+    }
+
     return {
-      options: { id: id },
+      options: { id: id, onclick: clickHandler },
       children: [icon, { tagName: 'span', text: title }],
     }
   };
 
+  const { 
+    getTodosDueToday,
+    getTodosDueInTheFuture,
+    getCompletedTodos,
+    getTodosBasedOnPriority
+  } = userInterfaceAPI;
+
   const group = {
     options: { className: 'group' },
     children: [
-      option('today-view', 'Today', calendar2Date),
-      option('upcoming-view', 'Upcoming', calendar2Week),
-      option('completed-view', 'Completed', check2Circle),
-      option('high-view', 'High Priority', undefined, 'high-priority'),
-      option('med-view', 'Medium Priority', undefined, 'medium-priority'),
-      option('low-view', 'Low Priority', undefined, 'low-priority'),
+      option('today-view', 'Today', getTodosDueToday, calendar2Date),
+      option('upcoming-view', 'Upcoming', getTodosDueInTheFuture, calendar2Week),
+      option('completed-view', 'Completed', getCompletedTodos, check2Circle),
+      option('high-view', 'High Priority', getTodosBasedOnPriority, null, 'high-priority', 0),
+      option('med-view', 'Medium Priority', getTodosBasedOnPriority, null, 'medium-priority', 1),
+      option('low-view', 'Low Priority', getTodosBasedOnPriority, null, 'low-priority', 2)
     ],
   };
 
