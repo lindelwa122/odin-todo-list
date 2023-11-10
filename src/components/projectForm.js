@@ -1,3 +1,5 @@
+import xLg from 'bootstrap-icons/icons/x-lg.svg';
+
 const projectForm = () => {
   const closeBtn = {
     children: [{
