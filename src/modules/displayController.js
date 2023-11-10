@@ -1,7 +1,7 @@
 import userInterfaceAPI from './userInterfaceAPI';
 import projectElement from '../components/project';
 import todoElement from '../components/todo';
-import { domManager } from 'dom-wizard';
+import { domManager, store } from 'dom-wizard';
 
 const displayController = () => {
   let _currentProject;
@@ -43,7 +43,7 @@ const displayController = () => {
       const projectID = _currentProject.getID();
       userInterfaceAPI.updateTodo(todoID, 'completed');
       const todos = userInterfaceAPI.getTodos(projectID);
-      _renderTodos(todos, _currentProject.getTitle());
+      displayTodos(todos, _currentProject.getTitle());
     };
 
     const throwError = (message) => {
@@ -125,29 +125,28 @@ const displayController = () => {
         }
 
         const todos = userInterfaceAPI.getTodos(_currentProject.getID());
-        _renderTodos(todos, _currentProject.getTitle());
+        displayTodos(todos, _currentProject.getTitle());
       });
     });
   }
 
-  const _renderTodos = (todos, projectName) => {
-    // Remove todos
-    _removeNodes('.task');
-
-    const main = document.querySelector('main');
-    const addTask = document.querySelector('.new-task');
-
-    const heading = main.querySelector('.heading > h1');
-    heading.textContent = projectName;
-
-    todos.forEach((todo) => {
-      const todoEle = todoElement(todo);
-      main.insertBefore(todoEle, addTask);
+  const displayTodos = (todos, projectName) => {
+    domManager.update({
+      selector: 'main > .heading',
+      action: 'update',
+      textContent: projectName
     });
 
-    _completedToggleHandler();
-    _editTodo();
-    _deleteTodo();
+    // Clear tasks
+    domManager.update({ 
+      selector: 'main > .tasks', 
+      action: 'update', 
+      innerHTML: ''
+    });
+
+    todos.forEach((instance) => {
+      domManager.create(todoElement(instance), 'main > .tasks');
+    });
   };
 
   const _renderProjects = () => {
@@ -236,7 +235,7 @@ const displayController = () => {
       }
 
       const todos = userInterfaceAPI.getTodos(_currentProject.getID());
-      _renderTodos(todos, _currentProject.getTitle());
+      displayTodos(todos, _currentProject.getTitle());
 
       // clear form
       title.value = '';
@@ -260,7 +259,7 @@ const displayController = () => {
   const _showTodayView = () => {
     document.querySelector('#today-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosDueToday();
-      _renderTodos(todos, 'Today');
+      displayTodos(todos, 'Today');
       _hideEditBtns();
     });
   };
@@ -268,7 +267,7 @@ const displayController = () => {
   const _showUpcomingView = () => {
     document.querySelector('#upcoming-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosDueInTheFuture();
-      _renderTodos(todos, 'Upcoming');
+      displayTodos(todos, 'Upcoming');
       _hideEditBtns();
     });
   };
@@ -276,7 +275,7 @@ const displayController = () => {
   const _showCompletedView = () => {
     document.querySelector('#completed-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getCompletedTodos();
-      _renderTodos(todos, 'Completed');
+      displayTodos(todos, 'Completed');
       _hideEditBtns();
     });
   };
@@ -284,7 +283,7 @@ const displayController = () => {
   const _showHighPriorityView = () => {
     document.querySelector('#high-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(0);
-      _renderTodos(todos, 'Very Important');
+      displayTodos(todos, 'Very Important');
       _hideEditBtns();
     });
   };
@@ -292,7 +291,7 @@ const displayController = () => {
   const _showMediumPriorityView = () => {
     document.querySelector('#med-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(1);
-      _renderTodos(todos, 'Somewhat Important');
+      displayTodos(todos, 'Somewhat Important');
       _hideEditBtns();
     });
   };
@@ -300,7 +299,7 @@ const displayController = () => {
   const _showLowPriorityView = () => {
     document.querySelector('#low-view').addEventListener('click', () => {
       const todos = userInterfaceAPI.getTodosBasedOnPriority(2);
-      _renderTodos(todos, 'Not So Important');
+      displayTodos(todos, 'Not So Important');
       _hideEditBtns();
     });
   };
@@ -335,14 +334,14 @@ const displayController = () => {
 
     _renderProjects();
 
-    // const todos = userInterfaceAPI.getTodos(defaultProjectID);
-    // _renderTodos(todos, 'Personal');
+    const todos = userInterfaceAPI.getTodos(defaultProjectID);
+    displayTodos(todos, 'Personal');
 
-    for (const project of projects) {
+    projects.forEach((project) => {
       if (project.getID() === defaultProjectID) {
-        _currentProject = project;
+        store.updateState('currentProject', project);
       }
-    }
+    });
   }
   
   const startApp = () => {
@@ -361,7 +360,7 @@ const displayController = () => {
     _createDefaultProject();
   };
 
-  return { startApp };
+  return { displayTodos, startApp };
 };
 
-export default displayController().startApp;
+export default displayController();
