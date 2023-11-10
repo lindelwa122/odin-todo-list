@@ -4,7 +4,6 @@ import { isFuture, isToday } from 'date-fns';
 
 /**
  * Handles user interactions.
- * @return {object}
  */
 const userInterfaceAPI = () => {
   const _projects = [];
@@ -348,6 +347,20 @@ const userInterfaceAPI = () => {
     return updated;
   };
 
+  const getProject = (todoID) => {
+    for (const project of _projects) {
+      const todos = project.getAll();
+      
+      for (const todo of todos) {
+        if (todo.getID() === todoID) {
+          return project;
+        }
+      }
+    }
+
+    return false;
+  }
+
   return {
     createTodo,
     createProject,
@@ -355,6 +368,7 @@ const userInterfaceAPI = () => {
     getAllProjects,
     getCompletedTodos,
     getDefaultProjectID,
+    getProject,
     getTodos,
     getTodosBasedOnPriority,
     getTodosDueInTheFuture,
