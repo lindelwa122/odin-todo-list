@@ -68,10 +68,17 @@ const todo = (todoInstance) => {
                 userInterfaceAPI.getTodoInfo(todoInstance.getID()), 
                 { 
                   labels: userInterfaceAPI.getTodoInfo(todoInstance.getID()).labels.join(' '), 
-                  project: project.getID() 
+                  project: project.getID(),
                 }
               )
             );
+
+            // Update date seperately
+            domManager.update({
+              selector: '#todo-form > input#duedate',
+              action: 'update',
+              valueAsDate: userInterfaceAPI.getTodoInfo(todoInstance.getID()).dueDate
+            });
 
             domManager.update({
               selector: '#todo-form > input#id',
