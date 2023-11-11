@@ -136,8 +136,10 @@ const todo = (todoInstance) => {
       children: [],
     };
 
-    if (todoInstance.getLabels().length > 0) {
-      todoInstance.getLabels().forEach((item) => {
+    const labelItems = todoInstance.getLabels();
+
+    if (labelItems.length > 0 && labelItems[0]) {
+      labelItems.forEach((item) => {
         container.children.push(label(item));
       });
     }
