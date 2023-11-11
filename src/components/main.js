@@ -1,10 +1,14 @@
 import plusLg from 'bootstrap-icons/icons/plus-lg.svg';
+import todoForm from './todoForm';
 
 const main = () => {
   const heading = { tagName: 'h1', options: { className: 'heading' } };
   const tasks = { options: { className: 'tasks' } };
   const newTasks = {
-    options: { className: 'new-task' },
+    options: { 
+      className: 'new-task',
+      onclick: todoForm.show,
+    },
     children: [
       {
         tagName: 'img',
