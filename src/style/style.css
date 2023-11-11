@@ -98,6 +98,11 @@ dialog > div {
   color: var(--text-color-alt);
 }
 
+.group > div:not(.heading).active {
+  background-color: var(--secondary-color);
+  color: var(--text-color-alt);
+}
+
 h1 {
   font-size: 1.7rem;
   opacity: 0.5;
