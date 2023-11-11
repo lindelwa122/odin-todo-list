@@ -6,7 +6,7 @@ const validateTodo = (title, descr, dueDate, priority, labels) => {
     throw new Error('Title must have between 3 and 50 characters.');
   }
 
-  if (descr && descr.length < 10 || descr.length > 250) {
+  if ((descr && descr.length < 10) || descr.length > 250) {
     throw new Error('Description must have between 10 and 250 characters.');
   }
 

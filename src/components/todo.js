@@ -9,17 +9,21 @@ import { domManager } from 'dom-wizard';
 
 const todo = (todoInstance) => {
   const radio = {
-    options: { 
+    options: {
       classList: ['radio', 'complete-toggle'],
       onclick: (e) => {
         userInterfaceAPI.updateTodo(todoInstance.getID(), 'completed');
         const container = e.target.closest('.task');
         container.querySelector('.disk').classList.toggle('active');
-      }
+      },
     },
-    children: [{
-      options: { classList: ['disk', todoInstance.taskCompleted() ? 'active' : ''] },
-    }]
+    children: [
+      {
+        options: {
+          classList: ['disk', todoInstance.taskCompleted() ? 'active' : ''],
+        },
+      },
+    ],
   };
 
   const title = () => {
@@ -40,73 +44,76 @@ const todo = (todoInstance) => {
 
     return {
       children: [
-        { 
-          tagName: 'span', 
-          text: todoInstance.getTitle(), 
-          options: { className: 'title' } 
+        {
+          tagName: 'span',
+          text: todoInstance.getTitle(),
+          options: { className: 'title' },
         },
         { tagName: 'span', options: { className: priority } },
-      ]
-    }
-  }
+      ],
+    };
+  };
 
   const interactions = {
-    options: { className: 'interactions' } ,
+    options: { className: 'interactions' },
     children: [
-      { 
-        tagName: 'img', 
-        options: { 
-          src: pencilFill, 
-          alt: 'Icon', 
+      {
+        tagName: 'img',
+        options: {
+          src: pencilFill,
+          alt: 'Icon',
           className: 'edit-todo',
           onclick: () => {
             const project = userInterfaceAPI.getProject(todoInstance.getID());
 
             fillForm(
-              '#todo-form', 
+              '#todo-form',
               Object.assign(
-                {}, 
-                userInterfaceAPI.getTodoInfo(todoInstance.getID()), 
-                { 
-                  labels: userInterfaceAPI.getTodoInfo(todoInstance.getID()).labels.join(' '), 
+                {},
+                userInterfaceAPI.getTodoInfo(todoInstance.getID()),
+                {
+                  labels: userInterfaceAPI
+                    .getTodoInfo(todoInstance.getID())
+                    .labels.join(' '),
                   project: project.getID(),
-                }
-              )
+                },
+              ),
             );
 
             // Update date seperately
             domManager.update({
               selector: '#todo-form > input#duedate',
               action: 'update',
-              valueAsDate: userInterfaceAPI.getTodoInfo(todoInstance.getID()).dueDate
+              valueAsDate: userInterfaceAPI.getTodoInfo(todoInstance.getID())
+                .dueDate,
             });
 
             domManager.update({
               selector: '#todo-form > input#id',
               action: 'update',
-              value: todoInstance.getID()
+              value: todoInstance.getID(),
             });
 
             todoForm.show();
-          }
-        }
+          },
+        },
       },
-      { 
-        tagName: 'img', 
-        options: { 
-          src: trash3, 
-          alt: 'Icon', 
+      {
+        tagName: 'img',
+        options: {
+          src: trash3,
+          alt: 'Icon',
           className: 'delete-todo',
           onclick: (e) => {
             if (confirm('Are you sure you want to delete this todo?')) {
               userInterfaceAPI.deleteTodo(todoInstance.getID());
               e.target.closest('.task').remove();
             }
-          }
-        }
-      }
-    ]
-  }
+          },
+        },
+      },
+    ],
+  };
 
   const deadline = () => {
     const dueDate = todoInstance.getDueDate();
@@ -122,11 +129,11 @@ const todo = (todoInstance) => {
     return {
       options: { className: 'deadline-container' },
       children: [
-        { tagName: 'span', text: `Due ${dateDisplay}` }, 
-        { tagName: 'img', options: { src: clock, alt: 'Icon' } }
-      ]
-    }
-  }
+        { tagName: 'span', text: `Due ${dateDisplay}` },
+        { tagName: 'img', options: { src: clock, alt: 'Icon' } },
+      ],
+    };
+  };
 
   const labels = () => {
     const label = (text) => ({ text });
@@ -145,7 +152,7 @@ const todo = (todoInstance) => {
     }
 
     return container;
-  }
+  };
 
   return {
     before: (el) => {
@@ -155,8 +162,8 @@ const todo = (todoInstance) => {
       className: 'task',
       title: todoInstance.getDescr(),
     },
-    children: [radio, title(), interactions, deadline(), labels()]
-  }
-}
+    children: [radio, title(), interactions, deadline(), labels()],
+  };
+};
 
 export default todo;

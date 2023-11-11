@@ -8,14 +8,14 @@ const displayController = () => {
     domManager.update({
       selector: 'main > .heading',
       action: 'update',
-      textContent: projectName
+      textContent: projectName,
     });
 
     // Clear tasks
-    domManager.update({ 
-      selector: 'main > .tasks', 
-      action: 'update', 
-      innerHTML: ''
+    domManager.update({
+      selector: 'main > .tasks',
+      action: 'update',
+      innerHTML: '',
     });
 
     todos.forEach((instance) => {
@@ -37,12 +37,11 @@ const displayController = () => {
         child.remove();
       }
     });
-    
+
     projects.forEach((instance) => {
       domManager.create(projectElement(instance), '#project-list', true);
     });
   };
-
 
   const _createDefaultProject = () => {
     const projects = userInterfaceAPI.getAllProjects();
@@ -60,11 +59,10 @@ const displayController = () => {
     displayProjects();
 
     domManager.update({
-      selector: '.project-item', 
+      selector: '.project-item',
       action: 'toggle',
-      className: 'active'
+      className: 'active',
     });
-
 
     const todos = userInterfaceAPI.getTodos(defaultProjectID);
     displayTodos(todos, 'Personal');
@@ -74,9 +72,9 @@ const displayController = () => {
         store.updateState('currentProject', project);
       }
     });
-  }
-  
-  const startApp = () =>  _createDefaultProject();
+  };
+
+  const startApp = () => _createDefaultProject();
 
   return { displayTodos, displayProjects, startApp };
 };

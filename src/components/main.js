@@ -5,26 +5,26 @@ const main = () => {
   const heading = { tagName: 'h1', options: { className: 'heading' } };
   const tasks = { options: { className: 'tasks' } };
   const newTasks = {
-    options: { 
+    options: {
       className: 'new-task',
       onclick: todoForm.show,
     },
     children: [
       {
         tagName: 'img',
-        options: { src: plusLg, alt: 'Icon' }
+        options: { src: plusLg, alt: 'Icon' },
       },
       {
         tagName: 'span',
-        options: { textContent: 'Add task' }
-      }
-    ]
+        options: { textContent: 'Add task' },
+      },
+    ],
   };
 
   return {
-    tagName: 'main', 
-    children: [heading, tasks, newTasks]
+    tagName: 'main',
+    children: [heading, tasks, newTasks],
   };
-}
+};
 
 export default main();

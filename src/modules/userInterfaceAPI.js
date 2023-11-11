@@ -57,7 +57,7 @@ const userInterfaceAPI = () => {
         if (todo.getID() === todoID) project.removeTodo(todoID);
       });
     });
-  }
+  };
 
   const _getAllTodos = () => {
     const todos = [];
@@ -333,11 +333,13 @@ const userInterfaceAPI = () => {
 
       case 'project':
         const oldProject = getProject(newInfo.todoID);
-        const newProject = _projects.find((p) => p.getID() === newInfo.projectID);
+        const newProject = _projects.find(
+          (p) => p.getID() === newInfo.projectID,
+        );
 
         if (oldProject !== newProject) {
           const todo = oldProject.getAll().find((t) => {
-            return t.getID() === newInfo.todoID
+            return t.getID() === newInfo.todoID;
           });
           newProject.addTodo(todo);
           oldProject.removeTodo(newInfo.todoID);
@@ -365,7 +367,7 @@ const userInterfaceAPI = () => {
   const getProject = (todoID) => {
     for (const project of _projects) {
       const todos = project.getAll();
-      
+
       for (const todo of todos) {
         if (todo.getID() === todoID) {
           return project;
@@ -374,7 +376,7 @@ const userInterfaceAPI = () => {
     }
 
     return false;
-  }
+  };
 
   // If todo is found in any project then it exists, otherwise it doesn't
   const todoExists = (todoID) => Boolean(getProject(todoID));

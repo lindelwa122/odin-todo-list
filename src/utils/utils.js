@@ -1,4 +1,4 @@
-import { domManager } from "dom-wizard"
+import { domManager } from 'dom-wizard';
 
 const fillForm = (formSelector, data) => {
   for (const [key, val] of Object.entries(data)) {
@@ -6,17 +6,17 @@ const fillForm = (formSelector, data) => {
       domManager.update({
         selector: `${formSelector} > [name=${key}]`,
         action: 'update',
-        value: val
+        value: val,
       });
-    } catch (e) {};
+    } catch (e) {}
   }
-}
+};
 
 const clearForm = (form) => {
   for (const field of form) {
     field.value = '';
   }
-}
+};
 
 const getFormData = (form) => {
   const formData = {};
@@ -26,6 +26,6 @@ const getFormData = (form) => {
   }
 
   return formData;
-}
+};
 
 export { clearForm, fillForm, getFormData };

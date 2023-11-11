@@ -53,7 +53,7 @@ button {
   font-size: 0.8rem;
 }
 
-.delete-todo, 
+.delete-todo,
 .edit-todo {
   cursor: pointer;
 }
@@ -124,7 +124,7 @@ h1 {
 input,
 textarea,
 select {
-  border: .8px solid rgba(0, 0, 0, 0.3);
+  border: 0.8px solid rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   margin: 5px 0 10px 0;
   padding: 10px;

@@ -7,7 +7,7 @@ const project = (projectInstance) => {
   const icon = {
     tagName: 'img',
     options: { src: boxes, alt: 'icon' },
-  }
+  };
 
   const text = {
     tagName: 'span',
@@ -24,16 +24,18 @@ const project = (projectInstance) => {
       onclick: (e) => {
         store.updateState('currentProject', projectInstance);
         const todos = userInterfaceAPI.getTodos(projectInstance.getID());
-        
+
         displayController.displayTodos(todos, projectInstance.getTitle());
-        document.querySelectorAll('.group > div:not(.heading)').forEach(el => {
-          el.classList.remove('active');
-        });
+        document
+          .querySelectorAll('.group > div:not(.heading)')
+          .forEach((el) => {
+            el.classList.remove('active');
+          });
         e.target.closest('.project-item').classList.add('active');
-      }
+      },
     },
     children: [icon, text],
   };
-}
+};
 
 export default project;
