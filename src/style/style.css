@@ -67,6 +67,7 @@ button {
 }
 
 dialog {
+  border: none;
   border-radius: 10px;
   width: clamp(250px, 30%, 500px);
 }
@@ -115,10 +116,18 @@ h1 {
 input,
 textarea,
 select {
+  border: .8px solid rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   margin: 5px 0 10px 0;
   padding: 10px;
+  outline: none;
   width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border: 2px solid var(--nav-color);
 }
 
 .labels {
