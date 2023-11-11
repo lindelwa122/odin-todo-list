@@ -22,8 +22,9 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "@dom-manipulation-library/dml": "^1.1.0",
+    "bootstrap-icons": "^1.11.1",
     "date-fns": "^2.30.0",
+    "dom-wizard": "^0.0.7",
     "nanoid": "^5.0.1",
     "normalize.css": "^8.0.1"
   }
