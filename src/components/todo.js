@@ -5,6 +5,7 @@ import clock from 'bootstrap-icons/icons/clock.svg';
 import userInterfaceAPI from '../modules/userInterfaceAPI';
 import { fillForm } from '../utils/utils';
 import todoForm from './todoForm';
+import { domManager } from 'dom-wizard';
 
 const todo = (todoInstance) => {
   const radio = {
@@ -65,9 +66,18 @@ const todo = (todoInstance) => {
               Object.assign(
                 {}, 
                 userInterfaceAPI.getTodoInfo(todoInstance.getID()), 
-                { labels: labels.join(' '), project: project.getID() }
+                { 
+                  labels: userInterfaceAPI.getTodoInfo(todoInstance.getID()).labels.join(' '), 
+                  project: project.getID() 
+                }
               )
             );
+
+            domManager.update({
+              selector: '#todo-form > input#id',
+              action: 'update',
+              value: todoInstance.getID()
+            });
 
             todoForm.show();
           }
