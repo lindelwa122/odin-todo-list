@@ -11,6 +11,7 @@ const projectForm = () => {
   const close = () => {
     const dialog = document.querySelector('#project-form-dialog');
     dialog.close();
+    clearForm(domManager.read('#todo-form', 'childNodes'));
   }
 
   const content = () => {
@@ -41,6 +42,7 @@ const projectForm = () => {
         const { title, description } = getFormData(e.target);
         userInterfaceAPI.createProject(title, description);
         displayController.displayProjects();
+        clearForm(domManager.read('#todo-form', 'childNodes'));
       }
 
       const formField = (tag, options) => ({

@@ -2,6 +2,7 @@ import xLg from 'bootstrap-icons/icons/x-lg.svg';
 import userInterfaceAPI from '../modules/userInterfaceAPI';
 import { domManager, store } from 'dom-wizard';
 import displayController from '../modules/displayController';
+import { clearForm } from '../utils/utils';
 
 const todoForm = () => {
   const show = () => {
@@ -29,6 +30,7 @@ const todoForm = () => {
   const close = () => {
     const dialog = document.querySelector('#todo-form-dialog');
     dialog.close();
+    clearForm(domManager.read('#todo-form', 'childNodes'));
   }
 
   const content = () => {
@@ -86,6 +88,8 @@ const todoForm = () => {
           const todos = userInterfaceAPI.getTodos(currentProject.getID());
           displayController.displayTodos(todos, currentProject.getTitle());
         }
+
+        clearForm(domManager.read('#todo-form', 'childNodes'));
       }
   
       return {
