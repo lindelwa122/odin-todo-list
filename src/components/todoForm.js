@@ -61,17 +61,26 @@ const todoForm = () => {
       }
 
       const submitHandler = (e) => {
-        const { title, description, priority, duedate, labels, project } = getFormData(e.target);
+        const { id, title, description, priority, duedate, labels, project } = getFormData(e.target);
 
-        userInterfaceAPI.createTodo(
-          title, 
-          description, 
-          new Date(duedate), 
-          +priority, 
-          labels,
-          project
-        );
-
+        if (userInterfaceAPI.todoExists(id)) {
+          userInterfaceAPI.updateTodo(id, 'title', title);
+          userInterfaceAPI.updateTodo(id, 'description', description);
+          userInterfaceAPI.updateTodo(id, 'priority', +priority);
+          userInterfaceAPI.updateTodo(id, 'duedate', new Date(duedate));
+          userInterfaceAPI.updateTodo(id, 'label', labels.split(' '));
+          userInterfaceAPI.updateTodo(id, 'project', { todoID: id, projectID: project });
+        } else {
+          userInterfaceAPI.createTodo(
+            title, 
+            description, 
+            new Date(duedate), 
+            +priority, 
+            labels,
+            project
+          );
+        }
+        
         const currentProject = store.getState('currentProject');
         if (currentProject && currentProject.getID() === project) {
           const todos = userInterfaceAPI.getTodos(currentProject.getID());
@@ -87,7 +96,7 @@ const todoForm = () => {
           onsubmit: submitHandler,
         },
         children: [
-          formField('input', { type: 'hidden', value: '', id: 'todo-id' }),
+          formField('input', { type: 'hidden', value: '', id: 'id', name: 'id' }),
           formField('label', { for: 'title', textContent: 'Title' }),
           formField('input', { 
             id: 'title',
