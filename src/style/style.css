@@ -203,6 +203,13 @@ nav {
 
 .open-project-form {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.open-project-form img {
+  filter: brightness(0) invert(1);
 }
 
 .project > .heading {
