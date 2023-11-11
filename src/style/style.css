@@ -224,6 +224,7 @@ nav {
 
 .task .title {
   font-weight: 500;
+  margin-right: 10px;
 }
 
 .task > .radio {
