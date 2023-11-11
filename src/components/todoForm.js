@@ -25,6 +25,13 @@ const todoForm = () => {
         options: { value: project.getID() }
       }, '#todo-form-dialog select#project', true);
     });
+
+    // Clear value
+    domManager.update({ 
+      selector: '#todo-form-dialog select#project', 
+      action: 'update', 
+      value: ''
+    });
   }
 
   const close = () => {
