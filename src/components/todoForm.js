@@ -2,7 +2,7 @@ import xLg from 'bootstrap-icons/icons/x-lg.svg';
 import userInterfaceAPI from '../modules/userInterfaceAPI';
 import { domManager, store } from 'dom-wizard';
 import displayController from '../modules/displayController';
-import { clearForm } from '../utils/utils';
+import { clearForm, getFormData } from '../utils/utils';
 
 const todoForm = () => {
   const show = () => {
@@ -58,16 +58,6 @@ const todoForm = () => {
         tagName: tag,
         options: options
       });
-
-      const getFormData = (form) => {
-        const formData = {};
-
-        for (const field of form) {
-          formData[field.name] = field.value;
-        }
-
-        return formData;
-      }
 
       const submitHandler = (e) => {
         const { id, title, description, priority, duedate, labels, project } = getFormData(e.target);

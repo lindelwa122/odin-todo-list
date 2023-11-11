@@ -18,4 +18,14 @@ const clearForm = (form) => {
   }
 }
 
-export { clearForm, fillForm };
+const getFormData = (form) => {
+  const formData = {};
+
+  for (const field of form) {
+    formData[field.name] = field.value;
+  }
+
+  return formData;
+}
+
+export { clearForm, fillForm, getFormData };

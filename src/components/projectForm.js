@@ -1,7 +1,7 @@
 import xLg from 'bootstrap-icons/icons/x-lg.svg';
 import userInterfaceAPI from '../modules/userInterfaceAPI';
 import displayController from '../modules/displayController';
-import { clearForm } from '../utils/utils';
+import { clearForm, getFormData } from '../utils/utils';
 import { domManager } from 'dom-wizard';
 
 const projectForm = () => {
@@ -30,16 +30,6 @@ const projectForm = () => {
     }
   
     const form = () => {
-      const getFormData = (form) => {
-        const formData = {};
-    
-        for (const field of form) {
-          formData[field.name] = field.value;
-        }
-    
-        return formData;
-      }
-    
       const submitHandler = (e) => {
         const { title, description } = getFormData(e.target);
         userInterfaceAPI.createProject(title, description);
