@@ -51,6 +51,7 @@ const todo = (todoInstance) => {
   }
 
   const interactions = {
+    options: { className: 'interactions' } ,
     children: [
       { 
         tagName: 'img', 
