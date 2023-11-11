@@ -121,7 +121,7 @@ const todo = (todoInstance) => {
     return {
       options: { className: 'deadline-container' },
       children: [
-        { tagName: 'span', text: `Due on ${dateDisplay}` }, 
+        { tagName: 'span', text: `Due ${dateDisplay}` }, 
         { tagName: 'img', options: { src: clock, alt: 'Icon' } }
       ]
     }
