@@ -12,10 +12,16 @@ const sidebar = () => {
       ? { tagName: 'img', options: { src: imgSrc, icon: 'icon' }}
       : { tagName: 'i', options: { classList: ['bi', iClass] }}; 
 
-    const clickHandler = () => {
+    const clickHandler = (e) => {
       store.updateState('currentProject', undefined);
       const todos = getTodosMethod(...args);
       displayController.displayTodos(todos, title);
+
+      document.querySelectorAll('.group > div:not(.heading)').forEach(el => {
+        el.classList.remove('active');
+      });
+
+      e.target.closest(`#${id}`).classList.add('active');
     }
 
     return {

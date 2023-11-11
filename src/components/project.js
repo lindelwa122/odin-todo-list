@@ -21,10 +21,15 @@ const project = (projectInstance) => {
     options: {
       className: 'project-item',
       title: projectInstance.getDescr(),
-      onclick: () => {
+      onclick: (e) => {
         store.updateState('currentProject', projectInstance);
         const todos = userInterfaceAPI.getTodos(projectInstance.getID());
+        
         displayController.displayTodos(todos, projectInstance.getTitle());
+        document.querySelectorAll('.group > div:not(.heading)').forEach(el => {
+          el.classList.remove('active');
+        });
+        e.target.closest('.project-item').classList.add('active');
       }
     },
     children: [icon, text],

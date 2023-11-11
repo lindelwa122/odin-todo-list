@@ -339,6 +339,13 @@ const displayController = () => {
 
     displayProjects();
 
+    domManager.update({
+      selector: '.project-item', 
+      action: 'toggle',
+      className: 'active'
+    });
+
+
     const todos = userInterfaceAPI.getTodos(defaultProjectID);
     displayTodos(todos, 'Personal');
 
