@@ -98,6 +98,9 @@ const todoForm = () => {
 
         clearForm(domManager.read('#todo-form', 'childNodes'));
       }
+
+      const d = new Date();
+      const minDuedate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
   
       return {
         tagName: 'form',
@@ -130,6 +133,7 @@ const todoForm = () => {
           formField('input', { 
             id: 'duedate',
             name: 'duedate',
+            min: minDuedate,
             type: 'date',
             required: true
           }),
