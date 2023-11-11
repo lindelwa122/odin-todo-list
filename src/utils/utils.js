@@ -10,6 +10,12 @@ const fillForm = (formSelector, data) => {
       });
     } catch (e) {};
   }
-} 
+}
 
-export { fillForm };
+const clearForm = (form) => {
+  for (const field of form) {
+    field.value = '';
+  }
+}
+
+export { clearForm, fillForm };
