@@ -291,7 +291,7 @@ const userInterfaceAPI = () => {
   /**
    * Updates todo
    * @param {string} todoID - The ID of the todo to be updated
-   * @param {'completed' | 'description' | 'duedate' | 'priority' | 'title'} about - Information to be updated
+   * @param {'completed' | 'description' | 'duedate' | 'priority' | 'title'| 'project'} about - Information to be updated
    * @param {*} newInfo - New information
    * @return {Boolean} true if the todo was updated successfully, otherwise false
    */
@@ -331,6 +331,20 @@ const userInterfaceAPI = () => {
         updated = todo.updateTitle(newInfo);
         break;
 
+      case 'project':
+        const oldProject = getProject(newInfo.todoID);
+        const newProject = _projects.find((p) => p.getID() === newInfo.projectID);
+
+        if (oldProject !== newProject) {
+          const todo = oldProject.getAll().find((t) => {
+            return t.getID() === newInfo.todoID
+          });
+          newProject.addTodo(todo);
+          oldProject.removeTodo(newInfo.todoID);
+        }
+
+        break;
+
       case 'label':
         const currentLabels = todo.getLabels();
         const tobeRemoved = currentLabels.filter(
@@ -342,6 +356,7 @@ const userInterfaceAPI = () => {
 
         tobeRemoved.forEach((label) => todo.removeLabel(label));
         tobeAdded.forEach((label) => todo.addLabel(label));
+        break;
     }
 
     return updated;
