@@ -1,6 +1,8 @@
 import xLg from 'bootstrap-icons/icons/x-lg.svg';
 import userInterfaceAPI from '../modules/userInterfaceAPI';
 import displayController from '../modules/displayController';
+import { clearForm } from '../utils/utils';
+import { domManager } from 'dom-wizard';
 
 const projectForm = () => {
   const show = () => {
