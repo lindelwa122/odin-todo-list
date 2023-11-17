@@ -8,6 +8,37 @@ import { isFuture, isToday } from 'date-fns';
 const userInterfaceAPI = () => {
   const _projects = [];
 
+  const _readProjectsInfo = () => {
+    const projectsInfo = [];
+
+    _projects.forEach(project => {
+      const info = {
+        title: project.getTitle(),
+        descr: project.getDescr(),
+        todos: []
+      };
+
+      const todos = project.getAll();
+      todos.length > 0 && todos.forEach(todo => {
+        info.todos.push({
+          title: todo.getTitle(),
+          descr: todo.getDescr(),
+          duedate: todo.getDueDate(),
+          priority: todo.getPriority(),
+          labels: todo.getLabels()
+        })
+      });
+
+      projectsInfo.push(info);
+    });
+
+    return projectsInfo;
+  }
+
+  const _save = () => {
+    localStorage.setItem('projects', JSON.stringify(_readProjectsInfo()));
+  }
+
   /**
    * Creates a todo and adds it to an appropriate project.
    * @param {string} title - The title of the todo
@@ -24,6 +55,7 @@ const userInterfaceAPI = () => {
     for (const project of _projects) {
       if (project.getID() === projectID) {
         project.addTodo(newTodo);
+        _save()
         return;
       }
     }
@@ -47,6 +79,8 @@ const userInterfaceAPI = () => {
 
     const newProject = project(name, descr);
     _projects.push(newProject);
+    _save();
+
     return newProject.getID();
   };
 
@@ -55,6 +89,7 @@ const userInterfaceAPI = () => {
       const todos = project.getAll();
       todos.forEach((todo) => {
         if (todo.getID() === todoID) project.removeTodo(todoID);
+        _save();
       });
     });
   };
@@ -360,6 +395,8 @@ const userInterfaceAPI = () => {
         tobeAdded.forEach((label) => todo.addLabel(label));
         break;
     }
+
+    _save();
 
     return updated;
   };
