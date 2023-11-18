@@ -8,6 +8,22 @@ import { isFuture, isToday } from 'date-fns';
 const userInterfaceAPI = () => {
   const _projects = [];
 
+  (() => {
+    const cachedProjects = JSON.parse(localStorage.getItem('projects'));
+
+    cachedProjects && cachedProjects.forEach(cp => {
+      const p = project(cp.title, cp.descr);
+
+      cp.todos.length > 0 && cp.todos.forEach(ct => {
+        const t = todo(ct.title, ct.descr, new Date(ct.duedate), ct.priority, ct.labels);
+        ct.completed && t.toggleCompleted();
+        p.addTodo(t);
+      });
+
+      _projects.push(p);
+    });   
+  })();
+
   const _readProjectsInfo = () => {
     const projectsInfo = [];
 
@@ -25,8 +41,9 @@ const userInterfaceAPI = () => {
           descr: todo.getDescr(),
           duedate: todo.getDueDate(),
           priority: todo.getPriority(),
-          labels: todo.getLabels()
-        })
+          labels: todo.getLabels(),
+          completed: todo.taskCompleted()
+        });
       });
 
       projectsInfo.push(info);
